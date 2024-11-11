@@ -1,0 +1,31 @@
+.main-title {
+  width:40%;
+  text-align: center;
+  margin:auto;
+  font-size: 1.8dvi;
+  background-color: #04838F;
+  color: #fff;
+  padding: .6dvi;
+  border-radius: .6dvi;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 2dvi;
+  width:90%;
+  margin:auto;
+}
+
+.frame {
+  margin-top:.5dvi;
+  border: .2dvi solid #04838F;
+  padding: .5dvi;
+  width: 45%;
+  border-radius: .6dvi;
+  text-align: center;
+}
+
+.frame-data {
+  font-weight: 700;
+}
