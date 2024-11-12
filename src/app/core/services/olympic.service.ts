@@ -1,9 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { catchError, tap, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import {
+  catchError,
+  tap,
+  map,
+  defaultIfEmpty,
+  switchMap,
+} from 'rxjs/operators';
 
-interface CountryData {
+interface CountryTotalData {
   name: string;
   totalParticipations: number;
   totalMedalCount: number[];
@@ -31,7 +37,7 @@ export class OlympicService {
   private olympicUrl = './assets/mock/olympic.json';
   private olympics$ = new BehaviorSubject<any>(undefined);
   private olympicStats$ = new BehaviorSubject<{
-    countryData: CountryData[];
+    countryData: CountryTotalData[];
     maxTotalParticipations: number;
   } | null>(null);
 
@@ -47,7 +53,7 @@ export class OlympicService {
         // TODO: improve error handling
         console.error(error);
         // can be useful to end loading state and let the user know something went wrong
-        this.olympics$.next(null);
+        this.olympics$.next([]);
         this.olympicStats$.next({ countryData: [], maxTotalParticipations: 0 });
         return caught;
       })
@@ -60,7 +66,21 @@ export class OlympicService {
 
   getCountryByName(countryName: string): Observable<CountryDetail | undefined> {
     return this.olympics$.pipe(
-      map((countries) => countries.find((c: any) => c.country === countryName))
+      switchMap((countries) => {
+        if (!countries || countries.length === 0) {
+          return this.loadInitialData().pipe(
+            switchMap(() =>
+              this.olympics$.pipe(
+                map((updatedCountries) =>
+                  updatedCountries.find((c: any) => c.country === countryName)
+                )
+              )
+            )
+          );
+        } else {
+          return of(countries.find((c: any) => c.country === countryName));
+        }
+      })
     );
   }
 
@@ -110,11 +130,43 @@ export class OlympicService {
 
   getCountryDataByName(
     countryName: string
-  ): Observable<CountryData | undefined> {
-    return this.olympicStats$.pipe(
-      map((stats) =>
-        stats?.countryData.find((country) => country.name === countryName)
+  ): Observable<CountryTotalData | undefined> {
+    return this.loadInitialData().pipe(
+      switchMap(() =>
+        this.olympicStats$.pipe(
+          map((stats) =>
+            stats?.countryData.find((country) => country.name === countryName)
+          )
+        )
       )
+    );
+  }
+
+  getMedalsByCountryName(countryName: string): Observable<any> {
+    return this.getCountryByName(countryName).pipe(
+      map((countryDetail) => {
+        if (!countryDetail) {
+          return [];
+        }
+        const medalTypes = ['gold', 'silver', 'bronze'];
+        const medalData = medalTypes.map((type, index) => ({
+          name: type,
+          series: countryDetail.participations.map((participation) => ({
+            name: participation.year.toString(),
+            value: participation.medalsCount[index] || 0,
+          })),
+        }));
+        const totalSeries = countryDetail.participations.map(
+          (participation) => ({
+            name: participation.year.toString(),
+            value: participation.medalsCount.reduce((a, b) => a + b, 0),
+          })
+        );
+
+        medalData.push({ name: 'total', series: totalSeries });
+        return medalData;
+      }),
+      defaultIfEmpty([])
     );
   }
 }
