@@ -2,12 +2,24 @@
 <div class="flex-container">
   <div class="frame">
     <p>Number of games</p>
-    <p class="frame-data">{{ (olympicStats$ | async)?.maxTotalParticipations }}</p>
+    <p class="frame-data">
+      {{ (olympicStats$ | async)?.maxTotalParticipations }}
+    </p>
+  </div>
+  <div class="flag-frame">
+    <p class="flag-data">
+      {{ (selectedFlag$ | async) }}
+    </p>
   </div>
   <div class="frame">
     <p>Number of countries</p>
     <p class="frame-data">{{ (olympicStats$ | async)?.countryData?.length }}</p>
   </div>
+</div>
+<div >
+  <app-medals-pie-chart
+    [pieChartData]="pieChartData$ | async"
+  ></app-medals-pie-chart>
 </div>
 <hr />
 <p>{{ (olympics$ | async)?.length }} data loaded</p>

@@ -6,10 +6,16 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-
+import { MedalsPieChartComponent } from './medals-pie-chart/medals-pie-chart.component';
 @NgModule({
   declarations: [AppComponent, HomeComponent, NotFoundComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgxChartsModule ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    NgxChartsModule,
+    MedalsPieChartComponent,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

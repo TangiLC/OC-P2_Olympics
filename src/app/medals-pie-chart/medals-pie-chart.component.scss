@@ -1,0 +1,24 @@
+.pieChart-container {
+  display: flex;
+  width:90%;
+  height:40dvh;
+  margin:auto;
+}
+
+.pieChart{
+  align-self: center;
+  width:100%;
+  display:flex;
+  margin:auto;
+}
+
+ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
+  .tooltip-caret.position-top {
+    border-top-color: red;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  background-color: red;
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
