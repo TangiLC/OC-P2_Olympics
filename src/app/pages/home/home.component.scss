@@ -3,7 +3,7 @@
   text-align: center;
   margin:auto;
   font-size: 1.8dvi;
-  background-color: #04838F;
+  background-color: var(--bg-primary-color);
   color: #fff;
   padding: .6dvi;
   border-radius: .6dvi;
@@ -20,7 +20,7 @@
 
 .frame {
   margin-top:.5dvi;
-  border: .2dvi solid #04838F;
+  border: .2dvi solid var(--bg-primary-color);
   padding: .5dvi;
   width: 45%;
   border-radius: .6dvi;
@@ -31,7 +31,11 @@
   font-weight: 700;
 }
 
+.flag-frame{
+  width: 5%;
+  height:40px;
+  text-align: center;
+}
 .flag-data {
-  padding-top:20px;
   font-size: 36px;
 }

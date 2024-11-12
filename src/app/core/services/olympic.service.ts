@@ -1,12 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 
 interface CountryData {
   name: string;
   totalParticipations: number;
   totalMedalCount: number[];
+}
+
+interface Game {
+  id: number;
+  year: number;
+  city: string;
+  medalsCount: number[];
+  athleteCount: number;
+}
+
+interface CountryDetail {
+  id: number;
+  country: number;
+  participations: Game[];
 }
 
 @Injectable({
@@ -41,6 +55,12 @@ export class OlympicService {
 
   getOlympics() {
     return this.olympics$.asObservable();
+  }
+
+  getCountryByName(countryName: string): Observable<CountryDetail | undefined> {
+    return this.olympics$.pipe(
+      map((countries) => countries.find((c: any) => c.country === countryName))
+    );
   }
 
   private calculateStats(olympics: any) {

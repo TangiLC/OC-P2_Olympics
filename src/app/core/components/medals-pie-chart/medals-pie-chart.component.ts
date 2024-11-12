@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, ViewEncapsulation, OnInit } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { CountryService } from '../core/services/country.service';
+import { Router } from '@angular/router';
+import { CountryService } from '../../services/country.service';
 
 @Component({
   selector: 'app-medals-pie-chart',
@@ -8,12 +9,13 @@ import { CountryService } from '../core/services/country.service';
   imports: [NgxChartsModule],
   templateUrl: './medals-pie-chart.component.html',
   styleUrl: './medals-pie-chart.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class MedalsPieChartComponent {
   @Input() pieChartData: { name: string; value: number }[] | null = [];
   view: [number, number] = [1200, 700];
 
-  constructor(private countryService: CountryService) {}
+  constructor(private countryService: CountryService, private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -22,7 +24,12 @@ export class MedalsPieChartComponent {
   }
 
   onSelect(data: any): void {
-    console.log('Country selected :', JSON.stringify(data.name));
+    const countryName = data.name;
+    console.log('country selected',countryName)
+    if (countryName) {
+      this.countryService.setSelectedCountry(countryName);
+      this.router.navigate(['/detail/', countryName]);
+    }
   }
 
   onActivate(data: any): void {
@@ -31,11 +38,9 @@ export class MedalsPieChartComponent {
     if (countryName) {
       this.countryService.setSelectedCountry(countryName);
     }
-    console.log('Mouse over:', countryName);
   }
 
   onDeactivate(data: any): void {
     this.countryService.setSelectedCountry('');
-    console.log('Mouse out: null');
   }
 }

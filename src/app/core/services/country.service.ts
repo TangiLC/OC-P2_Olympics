@@ -29,7 +29,7 @@ export class CountryService {
         this.countries$.pipe(
           map((countries) => {
             const country = countries.find((c) => c.name === countryName);
-            return country ? country.flag : '';
+            return country ? country.flag : ' ';
           })
         )
       )
@@ -39,4 +39,5 @@ export class CountryService {
   setSelectedCountry(countryName: string): void {
     this.selectedCountry.next(countryName);
   }
+
 }

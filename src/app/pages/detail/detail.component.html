@@ -1,0 +1,8 @@
+<div *ngIf="country$ | async as country; else loading">
+  <h1>{{ country.country }}</h1>
+  <p>Flag: {{ country?.participations }}</p>
+
+</div>
+<ng-template #loading>
+  <p>Loading country details...</p>
+</ng-template>
