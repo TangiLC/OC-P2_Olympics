@@ -1,13 +1,13 @@
 .pieChart-container {
   display: flex;
   width: 90%;
-  height: 40dvh;
+  min-height: 40dvh;
   margin: auto;
 }
 
 .pieChart {
   align-self: center;
-  width: 100%;
+  text-align: center;
   display: flex;
   margin: auto;
 }

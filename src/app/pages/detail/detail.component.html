@@ -1,14 +1,11 @@
-<!--<div >
-  <app-medals-pie-chart
-    [pieChartData]="pieChartData$ | async"
-  ></app-medals-pie-chart>
-</div>
--->
-
 <div *ngIf="countryData$ | async as country; else loading">
+<div class="flex-title">
+  <div class="home" (click)="navigateHome()">
+    <i class="bi bi-caret-left-square-fill"></i>
+  </div>
   <h1 class="main-title">
     {{ selectedFlag$ | async }}&nbsp;{{ country.name }}
-  </h1>
+  </h1></div>
 
   <div class="flex-container">
     <div class="frame">
@@ -46,6 +43,20 @@
     </div>
   </div>
 </div>
+<!--<div >
+  <app-medals-line-chart
+    [lineChartData]="lineChartData$ | async"
+  ></app-medals-line-chart>
+</div>
+-->
+
+
 <ng-template #loading>
-  <p>Loading country details...</p>
+  <div class="flex-title">
+    <div class="home" (click)="navigateHome()">
+      <i class="bi bi-caret-left-square-fill"></i>
+    </div>
+    <h1 class="main-title">
+      ...Loading
+    </h1></div>
 </ng-template>

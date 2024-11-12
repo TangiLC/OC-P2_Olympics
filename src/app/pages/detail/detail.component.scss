@@ -1,3 +1,12 @@
+.flex-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.home {
+  font-size: 2.2dvi;
+  padding: 5px;
+}
 .main-title {
   width: 40%;
   text-align: center;
@@ -45,7 +54,7 @@
   height: 2rem;
   border-radius: 50%;
   margin-top: 4px;
-  padding-top: .2rem;
+  padding-top: 0.2rem;
   box-shadow: rgba(0, 0, 0, 0.15) 1px 1px 2px;
 }
 .gold {

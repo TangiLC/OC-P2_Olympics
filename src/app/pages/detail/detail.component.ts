@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { switchMap, map, tap } from 'rxjs/operators';
 import { OlympicService } from 'src/app/core/services/olympic.service';
@@ -37,10 +37,15 @@ export class DetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private olympicService: OlympicService,
     private countryService: CountryService
   ) {
     this.selectedFlag$ = this.countryService.getCountryFlag();
+  }
+
+  navigateHome(): void {
+    this.router.navigate(['/']);
   }
 
   ngOnInit(): void {

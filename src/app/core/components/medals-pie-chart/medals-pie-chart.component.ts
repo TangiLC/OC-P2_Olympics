@@ -13,7 +13,7 @@ import { CountryService } from '../../services/country.service';
 })
 export class MedalsPieChartComponent {
   @Input() pieChartData: { name: string; value: number }[] | null = [];
-  view: [number, number] = [1200, 700];
+  view: [number, number] = [.65*window.innerHeight, .65*window.innerHeight];
 
   constructor(private countryService: CountryService, private router: Router) {}
 

@@ -1,7 +1,8 @@
-:root {
-  --font-family: 'Segoe UI', Arial, sans-serif;
-  --bg-primary-color: #04838f;
+@import "bootstrap-icons/font/bootstrap-icons.css";
 
+:root {
+  --font-family: "Segoe UI", Arial, sans-serif;
+  --bg-primary-color: #04838f;
 }
 
 body {
