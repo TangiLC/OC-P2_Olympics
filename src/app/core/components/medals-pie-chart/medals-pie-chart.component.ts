@@ -28,7 +28,7 @@ export class MedalsPieChartComponent {
     console.log('country selected',countryName)
     if (countryName) {
       this.countryService.setSelectedCountry(countryName);
-      this.router.navigate(['/detail/', countryName]);
+      this.router.navigate(['/detail', countryName]);
     }
   }
 

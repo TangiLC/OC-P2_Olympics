@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
     private olympicService: OlympicService,
     private countryService: CountryService
   ) {
-    this.selectedFlag$ = this.countryService.selectedFlag$;
+    this.selectedFlag$ = this.countryService.getCountryFlag();
   }
 
   ngOnInit(): void {

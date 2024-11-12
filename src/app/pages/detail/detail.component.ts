@@ -1,7 +1,16 @@
-import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { switchMap, map, tap } from 'rxjs/operators';
+import { OlympicService } from 'src/app/core/services/olympic.service';
+import { CountryService } from 'src/app/core/services/country.service';
+
+interface CountryData {
+  name: string;
+  totalParticipations: number;
+  totalMedalCount: number[];
+  totalAthleteCount: number;
+}
 
 interface Game {
   id: number;
@@ -22,17 +31,32 @@ interface CountryDetail {
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss'],
 })
-
 export class DetailComponent implements OnInit {
-  country$: Observable<CountryDetail | undefined>;
+  countryData$: Observable<CountryData | undefined> = of(undefined);
+  public selectedFlag$: Observable<string> = of('');
 
   constructor(
     private route: ActivatedRoute,
-    private OlympicService: OlympicService
+    private olympicService: OlympicService,
+    private countryService: CountryService
   ) {
-    const countryName = this.route.snapshot.paramMap.get('countryName');
-    this.country$ = this.OlympicService.getCountryByName(countryName || '');
+    this.selectedFlag$ = this.countryService.getCountryFlag();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.countryData$ = this.route.paramMap.pipe(
+      map((params) => params.get('country')),
+      tap((countryName) => {
+        if (countryName) {
+          this.countryService.setSelectedCountry(countryName);
+        }
+      }),
+      switchMap((countryName) =>
+        countryName
+          ? this.olympicService.getCountryDataByName(countryName)
+          : of(undefined)
+      )
+    );
+  }
+
 }

@@ -1,7 +1,50 @@
-<div *ngIf="country$ | async as country; else loading">
-  <h1>{{ country.country }}</h1>
-  <p>Flag: {{ country?.participations }}</p>
+<!--<div >
+  <app-medals-pie-chart
+    [pieChartData]="pieChartData$ | async"
+  ></app-medals-pie-chart>
+</div>
+-->
 
+<div *ngIf="countryData$ | async as country; else loading">
+  <h1 class="main-title">
+    {{ selectedFlag$ | async }}&nbsp;{{ country.name }}
+  </h1>
+
+  <div class="flex-container">
+    <div class="frame">
+      <p>Number of games</p>
+      <p class="frame-data">
+        {{ country.totalParticipations }}
+      </p>
+    </div>
+    <div class="frame">
+      <p>Total number of medals</p>
+      <div class="flex-medals">
+        <div class="gold medal shiny-text">
+          {{ country.totalMedalCount[0] }}
+        </div>
+        <div class="silver medal shiny-text">
+          {{ country.totalMedalCount[1] }}
+        </div>
+        <div class="bronze medal shiny-text">
+          {{ country.totalMedalCount[2] }}
+        </div>
+        <div class="total shiny-text">
+          {{
+            country.totalMedalCount[0] +
+              country.totalMedalCount[1] +
+              country.totalMedalCount[2]
+          }}
+        </div>
+      </div>
+    </div>
+    <div class="frame">
+      <p>Number of athletes</p>
+      <p class="frame-data">
+        {{ country.totalAthleteCount }}
+      </p>
+    </div>
+  </div>
 </div>
 <ng-template #loading>
   <p>Loading country details...</p>

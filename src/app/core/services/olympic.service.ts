@@ -7,6 +7,7 @@ interface CountryData {
   name: string;
   totalParticipations: number;
   totalMedalCount: number[];
+  totalAthleteCount: number;
 }
 
 interface Game {
@@ -68,22 +69,34 @@ export class OlympicService {
       this.olympicStats$.next({ countryData: [], maxTotalParticipations: 0 });
       return;
     }
+
     const countryData = olympics.map((country: any) => {
       const name = country.country;
       const totalParticipations = country.participations.length;
       const totalMedalCount = country.participations.reduce(
         (acc: number[], participation: any) => {
           return [
-            acc[0] + participation.medalsCount[0], // Or
-            acc[1] + participation.medalsCount[1], // Argent
+            acc[0] + participation.medalsCount[0], // Gold
+            acc[1] + participation.medalsCount[1], // Silver
             acc[2] + participation.medalsCount[2], // Bronze
           ];
         },
         [0, 0, 0]
       );
+      const totalAthleteCount = country.participations.reduce(
+        (acc: number, participation: any) => acc + participation.athleteCount,
+        0
+      );
 
-      return { name, totalParticipations, totalMedalCount };
+      return {
+        name,
+        totalParticipations,
+        totalMedalCount,
+        totalAthleteCount,
+        participations: country.participations,
+      };
     });
+
     const maxTotalParticipations = Math.max(
       ...countryData.map((country: any) => country.totalParticipations)
     );
@@ -93,5 +106,15 @@ export class OlympicService {
 
   getOlympicStats() {
     return this.olympicStats$.asObservable();
+  }
+
+  getCountryDataByName(
+    countryName: string
+  ): Observable<CountryData | undefined> {
+    return this.olympicStats$.pipe(
+      map((stats) =>
+        stats?.countryData.find((country) => country.name === countryName)
+      )
+    );
   }
 }

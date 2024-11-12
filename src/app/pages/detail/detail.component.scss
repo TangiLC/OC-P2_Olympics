@@ -1,0 +1,101 @@
+.main-title {
+  width: 40%;
+  text-align: center;
+  margin: auto;
+  font-size: 1.8dvi;
+  background-color: var(--bg-primary-color);
+  color: #fff;
+  padding: 0.6dvi;
+  border-radius: 0.6dvi;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 2dvi;
+  width: 90%;
+  margin: auto;
+}
+
+.frame {
+  margin-top: 0.5dvi;
+  border: 0.2dvi solid var(--bg-primary-color);
+  padding: 0.5dvi;
+  width: 45%;
+  border-radius: 0.6dvi;
+  text-align: center;
+}
+
+.frame-data {
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.flex-medals {
+  display: flex;
+  justify-content: space-evenly;
+  width: 80%;
+  margin: auto;
+}
+
+.medal {
+  font-weight: 600;
+  font-size: 1.1rem;
+  width: 2.2rem;
+  height: 2rem;
+  border-radius: 50%;
+  margin-top: 4px;
+  padding-top: .2rem;
+  box-shadow: rgba(0, 0, 0, 0.15) 1px 1px 2px;
+}
+.gold {
+  background: linear-gradient(45deg, #ffd700, #ffb14e, #ff8c00);
+  border: 1px solid #ffb14e;
+}
+.silver {
+  background: linear-gradient(45deg, #c0c0c0, #dcdcdc, #e0e0e0);
+  border: 1px solid #dcdcdc;
+}
+.bronze {
+  background: linear-gradient(45deg, #cd7f32, #b87333, #a66e39);
+  border: 1px solid #b87333;
+}
+.total {
+  background: linear-gradient(45deg, #046b83, #04838f, #04a0a3);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.shiny-text {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+
+.shiny-text::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0)
+  );
+  transform: skewX(-30deg);
+  opacity: 0.5;
+  animation: shine 2s infinite;
+  pointer-events: none;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) skewX(-30deg);
+  }
+  100% {
+    transform: translateX(100%) skewX(-30deg);
+  }
+}

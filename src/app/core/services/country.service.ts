@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { switchMap, map } from 'rxjs/operators';
 
@@ -25,14 +25,14 @@ export class CountryService {
     this.countries$ = this.http.get<Country[]>(this.flagsUrl);
 
     this.selectedFlag$ = this.selectedCountry$.pipe(
-      switchMap((countryName) =>
-        this.countries$.pipe(
+      switchMap((countryName) => {
+        return this.countries$.pipe(
           map((countries) => {
             const country = countries.find((c) => c.name === countryName);
             return country ? country.flag : ' ';
           })
-        )
-      )
+        );
+      })
     );
   }
 
@@ -40,4 +40,7 @@ export class CountryService {
     this.selectedCountry.next(countryName);
   }
 
+  getCountryFlag(): Observable<string> {
+    return this.selectedFlag$;
+  }
 }
