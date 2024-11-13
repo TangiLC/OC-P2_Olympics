@@ -2,11 +2,11 @@
   width:40%;
   text-align: center;
   margin:auto;
-  font-size: 1.8dvi;
+  font-size: 1.8rem;
   background-color: var(--bg-primary-color);
   color: #fff;
-  padding: .6dvi;
-  border-radius: .6dvi;
+  padding: .6rem;
+  border-radius: .6rem;
 }
 
 .flex-container {
@@ -17,18 +17,18 @@
   margin:auto;
 }
 
-
 .frame {
-  margin-top:.5dvi;
-  border: .2dvi solid var(--bg-primary-color);
-  padding: .5dvi;
+  margin-top:.5rem;
+  border: .2rem solid var(--bg-primary-color);
+  padding: .5rem;
   width: 45%;
-  border-radius: .6dvi;
+  border-radius: .6rem;
   text-align: center;
 }
 
 .frame-data {
   font-weight: 700;
+  font-size: 1.4rem;
 }
 
 .flag-frame{
@@ -38,4 +38,8 @@
 }
 .flag-data {
   font-size: 36px;
+}
+
+.fi{
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 9px;
 }

@@ -7,6 +7,7 @@ interface Country {
   id: number;
   name: string;
   flag: string;
+  shortName:string;
 }
 
 @Injectable({
@@ -29,7 +30,7 @@ export class CountryService {
         return this.countries$.pipe(
           map((countries) => {
             const country = countries.find((c) => c.name === countryName);
-            return country ? country.flag : ' ';
+            return country ? country.shortName : ' ';
           })
         );
       })

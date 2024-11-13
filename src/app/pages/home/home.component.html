@@ -8,7 +8,11 @@
   </div>
   <div class="flag-frame">
     <p class="flag-data">
-      {{ (selectedFlag$ | async) }}
+      <span
+        *ngIf="selectedFlag$ | async"
+        [ngClass]="'fi fi-' + (selectedFlag$ | async)"
+      >
+      </span>
     </p>
   </div>
   <div class="frame">
@@ -16,7 +20,7 @@
     <p class="frame-data">{{ (olympicStats$ | async)?.countryData?.length }}</p>
   </div>
 </div>
-<div >
+<div>
   <app-medals-pie-chart
     [pieChartData]="pieChartData$ | async"
   ></app-medals-pie-chart>

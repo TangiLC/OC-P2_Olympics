@@ -1,10 +1,11 @@
 <div *ngIf="countryData$ | async as country; else loading">
   <div class="flex-title">
-    <div class="home" (click)="navigateHome()">
-      <i class="bi bi-caret-left-square-fill"></i>
-    </div>
+    <a class="home" routerLink="/">
+      <i class="bi bi-caret-left-square-fill" alt="Back"></i>
+    </a>
     <h1 class="main-title">
-      {{ selectedFlag$ | async }}&nbsp;{{ country.name }}
+      <span [ngClass]="'fi fi-' + (selectedFlag$ | async)"></span>
+      &nbsp;{{ country.name }}
     </h1>
   </div>
 
@@ -44,7 +45,7 @@
     </div>
   </div>
 </div>
-<div class="flex-container">
+<div class="linechart-container">
   <app-medals-line-chart
     *ngIf="lineChartData$ | async as data"
     [lineChartData]="data"
@@ -53,9 +54,9 @@
 
 <ng-template #loading>
   <div class="flex-title">
-    <div class="home" (click)="navigateHome()">
-      <i class="bi bi-caret-left-square-fill"></i>
-    </div>
+    <a class="home" routerLink="/">
+      <i class="bi bi-caret-left-square-fill" alt="Back"></i>
+    </a>
     <h1 class="main-title">...Loading</h1>
   </div>
 </ng-template>

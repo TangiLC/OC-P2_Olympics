@@ -1,4 +1,9 @@
-import { Component, Input, ViewEncapsulation, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewEncapsulation,
+  HostListener,
+} from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Router } from '@angular/router';
 import { CountryService } from '../../services/country.service';
@@ -13,11 +18,9 @@ import { CountryService } from '../../services/country.service';
 })
 export class MedalsPieChartComponent {
   @Input() pieChartData: { name: string; value: number }[] | null = [];
-  view: [number, number] = [.65*window.innerHeight, .65*window.innerHeight];
+  view: [number, number] = [0.5 * window.innerWidth, 0.45 * window.innerWidth];
 
   constructor(private countryService: CountryService, private router: Router) {}
-
-  ngOnInit(): void {}
 
   setTooltipText(data: { data: any }): string {
     return `${data.data.label}<br>🏅${data.data.value}`;
@@ -25,7 +28,7 @@ export class MedalsPieChartComponent {
 
   onSelect(data: any): void {
     const countryName = data.name;
-    console.log('country selected',countryName)
+    console.log('country selected', countryName);
     if (countryName) {
       this.countryService.setSelectedCountry(countryName);
       this.router.navigate(['/detail', countryName]);
@@ -42,5 +45,20 @@ export class MedalsPieChartComponent {
 
   onDeactivate(data: any): void {
     this.countryService.setSelectedCountry('');
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.updateViewDimensions();
+  }
+
+  private updateViewDimensions(): void {
+    const width = Math.min(0.7 * window.innerWidth, 1200);
+    const height = Math.min(0.6 * window.innerHeight, 600);
+    this.view = [width, height];
+  }
+
+  ngOnInit() {
+    this.updateViewDimensions();
   }
 }

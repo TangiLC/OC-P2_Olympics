@@ -1,13 +1,16 @@
 [
-  { "id": 0, "name": "", "flag": "" },
-  { "id": 1, "name": "Italy", "flag": "🇮🇹" },
-  { "id": 2, "name": "Spain", "flag": "🇪🇸" },
-  { "id": 3, "name": "United States", "flag": "🇺🇸" },
-  { "id": 4, "name": "Germany", "flag": "🇩🇪" },
-  { "id": 5, "name": "France", "flag": "🇫🇷" },
-  { "id": 6, "name": "Canada", "flag": "🇨🇦" },
-  { "id": 7, "name": "China", "flag": "🇨🇳" },
-  { "id": 8, "name": "Australia", "flag": "🇦🇺" },
-  { "id": 9, "name": "Brazil", "flag": "🇧🇷" },
-  { "id": 10, "name": "Japan", "flag": "🇯🇵" }
+  { "id": 0, "name": "", "flag": "","shortName":"" },
+  { "id": 1, "name": "Italy", "flag": "🇮🇹","shortName":"it" },
+  { "id": 2, "name": "Spain", "flag": "🇪🇸","shortName":"es" },
+  { "id": 3, "name": "United States", "flag": "🇺🇸","shortName":"us" },
+  { "id": 4, "name": "Germany", "flag": "🇩🇪","shortName":"de" },
+  { "id": 5, "name": "France", "flag": "🇫🇷","shortName":"fr" },
+  { "id": 6, "name": "Canada", "flag": "🇨🇦","shortName":"ca" },
+  { "id": 7, "name": "China", "flag": "🇨🇳","shortName":"cn" },
+  { "id": 8, "name": "Australia", "flag": "🇦🇺","shortName":"au" },
+  { "id": 9, "name": "Brazil", "flag": "🇧🇷","shortName":"br" },
+  { "id": 10, "name": "Japan", "flag": "🇯🇵","shortName":"jp" },
+  { "id": 11, "name": "South Korea", "flag": "🇰🇷","shortName":"kr" },
+  { "id": 12, "name": "New-Zeland", "flag": "🇳🇿","shortName":"nz" },
+  { "id": 13, "name": "Netherlands", "flag": "🇳🇱","shortName":"nl" }
 ]

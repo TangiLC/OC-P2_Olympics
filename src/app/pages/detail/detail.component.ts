@@ -47,9 +47,6 @@ export class DetailComponent implements OnInit {
     this.selectedFlag$ = this.countryService.getCountryFlag();
   }
 
-  navigateHome(): void {
-    this.router.navigate(['/']);
-  }
 
   ngOnInit(): void {
     const countryName$ = this.route.paramMap.pipe(
