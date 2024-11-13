@@ -19,6 +19,7 @@ import { OlympicService } from '../../services/olympic.service';
 export class MedalsPieChartComponent {
   @Input() pieChartData: { name: string; value: number }[] | null = [];
   view: [number, number] = [0.5 * window.innerWidth, 0.45 * window.innerWidth];
+  labels: boolean = window.innerWidth > 700;
 
   constructor(private router: Router, private olympicService: OlympicService) {}
 
@@ -52,9 +53,10 @@ export class MedalsPieChartComponent {
   }
 
   private updateViewDimensions(): void {
-    const width = Math.min(0.7 * window.innerWidth, 1200);
+    const width = window.innerWidth > 700?Math.min(0.8 * window.innerWidth, 1400):.9*window.innerWidth;
     const height = Math.min(0.6 * window.innerHeight, 600);
     this.view = [width, height];
+    this.labels = window.innerWidth > 700;
   }
 
   ngOnInit() {

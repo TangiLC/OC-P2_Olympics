@@ -22,18 +22,57 @@
 .flex-container {
   display: flex;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 1rem;
   width: 90%;
   margin: auto;
+  flex-wrap: wrap;
 }
 
 .frame {
   margin-top: 0.5rem;
   border: 0.2rem solid var(--bg-primary-color);
   padding: 0.5rem;
-  width: 45%;
+  width: 29%;
   border-radius: 0.6rem;
   text-align: center;
+}
+
+@media (min-width: 850px) {
+  .flex-container {
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 849px) {
+  .flex-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 8%;
+    justify-content: center;
+    text-align: center;
+    place-items: center;
+  }
+
+  .frame {
+    width: 100%;
+  }
+  .frame:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+    margin-bottom: 0px;
+  }
+  .frame:nth-child(3) {
+    grid-column: 2;
+    grid-row: 1;
+    margin-bottom: 0px;
+  }
+  .frame:nth-child(2) {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+    margin-top:0px;
+    margin-bottom: 2rem;
+  }
 }
 
 .frame-data {
@@ -44,7 +83,7 @@
 .flex-medals {
   display: flex;
   justify-content: space-evenly;
-  width: 80%;
+  width: 90%;
   margin: auto;
 }
 
@@ -58,6 +97,23 @@
   padding-top: 0.3rem;
   box-shadow: rgba(0, 0, 0, 0.15) 1px 1px 2px;
 }
+@media (max-width: 950px) {
+  .medal{
+    font-size: 0.9rem;
+    width: 1.8rem;
+    height: 1.6rem;
+    padding-top: 0.2rem;
+  }
+}
+@media (max-width: 768px) {
+  .medal{
+    font-size: 1.1rem;
+    width: 2.2rem;
+    height: 1.9rem;
+    padding-top: 0.3rem;
+  }
+}
+
 .gold {
   background: linear-gradient(45deg, #ffd700, #ffb14e, #ff8c00);
   border: 2px solid #ffb14e;

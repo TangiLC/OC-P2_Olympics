@@ -20,7 +20,7 @@ export class MedalsLineChartComponent {
   xAxis: boolean = true;
   yAxis: boolean = true;
   showXAxisLabel: boolean = true;
-  showYAxisLabel: boolean = true;
+  showYAxisLabel: boolean = window.innerWidth > 700;
   xAxisLabel: string = 'Year';
   yAxisLabel: string = 'Medals';
   colorScheme: Color = {
@@ -36,9 +36,13 @@ export class MedalsLineChartComponent {
   }
 
   private updateViewDimensions(): void {
-    const width = Math.min(0.75 * window.innerWidth, 1400);
+    const width =
+      window.innerWidth > 700
+        ? Math.min(0.75 * window.innerWidth, 1400)
+        : 0.9 * window.innerWidth;
     const height = Math.min(0.5 * window.innerHeight, 800);
     this.view = [width, height];
+    this.showYAxisLabel = window.innerWidth > 700;
   }
 
   ngOnInit() {
