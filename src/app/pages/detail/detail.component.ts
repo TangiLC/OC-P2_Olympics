@@ -47,7 +47,6 @@ export class DetailComponent implements OnInit {
     this.selectedFlag$ = this.countryService.getCountryFlag();
   }
 
-
   ngOnInit(): void {
     const countryName$ = this.route.paramMap.pipe(
       map((params) => params.get('country')),
@@ -61,14 +60,15 @@ export class DetailComponent implements OnInit {
     this.countryData$ = countryName$.pipe(
       switchMap((countryName) =>
         countryName
-      ? this.olympicService.getCountryDataByName(countryName).pipe(
-          tap((data) => {
-            if (!data || (Array.isArray(data) && data.length === 0)) {
-              this.router.navigate(['/not-found']);
-            }
-          })
-        )
-      : of(undefined)
+          ? this.olympicService.getCountryDataByName(countryName).pipe(
+              tap((data) => {
+                if (!data || (Array.isArray(data) && data.length === 0)) {
+                  this.olympicService.errorMessage$.next('Pas de données pour ce pays');
+                  this.router.navigate(['/404']);
+                }
+              })
+            )
+          : of(undefined)
       )
     );
 

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
 import {
   catchError,
   tap,
@@ -40,8 +41,9 @@ export class OlympicService {
     countryData: CountryTotalData[];
     maxTotalParticipations: number;
   } | null>(null);
+  errorMessage$ = new BehaviorSubject<string | null>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   loadInitialData() {
     return this.http.get<any>(this.olympicUrl).pipe(
@@ -50,11 +52,12 @@ export class OlympicService {
         this.calculateStats(value);
       }),
       catchError((error, caught) => {
-        // TODO: improve error handling
-        console.error(error);
-        // can be useful to end loading state and let the user know something went wrong
+        this.errorMessage$.next(
+          `Données introuvables ou erreur serveur. ERR:${error.status}-${error.message}`
+        );
         this.olympics$.next([]);
         this.olympicStats$.next({ countryData: [], maxTotalParticipations: 0 });
+        this.router.navigate(['/404']);
         return caught;
       })
     );
