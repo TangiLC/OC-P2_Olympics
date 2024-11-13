@@ -1,29 +1,82 @@
-# OlympicGamesStarter
+# OlympicGamesStarter 🏅
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.3.
+[![Angular](https://img.shields.io/badge/Angular-18.0.3-red?logo=angular)](https://angular.io/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-4.x-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Ngx-Charts](https://img.shields.io/badge/Ngx--Charts-Lines%20%26%20Pie-orange)](https://swimlane.github.io/ngx-charts/)
 
-Don't forget to install your node_modules before starting (`npm install`).
+**OlympicGamesStarter** est un projet Angular développé dans un cadre pédagogique pour le cursus Java-Angular d'OpenClassrooms. Ce projet a pour but d'approfondir les connaissances en développement front-end, avec un focus sur Angular et TypeScript, ainsi que sur l'import et l'utilisation d'une bibliothèque de la visualisation de données `ngx-charts`.
 
-## Development server
+Auteur : **M. Tangi LE CADRE**
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
 
-## Build
+## 📝 Description
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Ce projet est une application Angular de visualisation de données olympiques, qui affiche des informations sur les performances de différents pays aux Jeux Olympiques. Il utilise des graphiques linéaires et circulaires grâce à la bibliothèque `ngx-charts` pour illustrer les données de manière interactive et attractive, avec un routage en tre les pages.
 
-## Where to start
+## 🛠️ Pré-requis
 
-As you can see, an architecture has already been defined for the project. It is just a suggestion, you can choose to use your own. The predefined architecture includes (in addition to the default angular architecture) the following:
+Avant de commencer, assurez-vous d'avoir installé toutes les dépendances du projet en exécutant la commande :
 
-- `components` folder: contains every reusable components
-- `pages` folder: contains components used for routing
-- `core` folder: contains the business logic (`services` and `models` folders)
+```bash
+npm install
+```
 
-I suggest you to start by understanding this starter code. Pay an extra attention to the `app-routing.module.ts` and the `olympic.service.ts`.
+---
 
-Once mastered, you should continue by creating the typescript interfaces inside the `models` folder. As you can see I already created two files corresponding to the data included inside the `olympic.json`. With your interfaces, improve the code by replacing every `any` by the corresponding interface.
+## 🚀 Lancement du serveur de développement
 
-You're now ready to implement the requested features.
+Pour lancer le serveur de développement, exécutez :
 
-Good luck!
+```bash
+ng serve
+```
+
+Ouvrez ensuite sur `http://localhost:4200/` dans votre navigateur. L'application se recharge automatiquement dès qu'une modification est apportée aux fichiers source.
+Une version en ligne est disponible sur `https://oc-p2-olympics.vercel.app/` .
+
+---
+
+## 🏗️ Build du projet
+
+Pour construire le projet, utilisez la commande :
+
+```bash
+ng build
+```
+
+Les fichiers générés seront stockés dans le répertoire `dist/`.
+
+---
+
+## 🗂️ Architecture du projet
+
+Une architecture de base a été mise en place pour faciliter la compréhension et l'organisation du code. Voici les principales sections :
+
+- **`components`** : contient tous les composants réutilisables.
+- **`pages`** : contient les composants utilisés pour le routage et les vues principales de l'application.
+- **`core`** : contient la logique métier et les services.
+  - **`services`** : services utilisés pour récupérer les données olympiques et gérer les interactions avec l'API.
+  - **`models`** : interfaces TypeScript pour structurer les données et assurer la typage strict.
+
+---
+
+## 📊 Fonctionnalités du projet
+
+Le projet intègre les fonctionnalités de visualisation de données suivantes grâce à `ngx-charts` :
+
+- **Graphiques en ligne** (Line Chart) pour observer les tendances de médailles au fil du temps.
+- **Graphiques en secteurs** (Pie Chart) pour comparer les totaux de médailles par pays.
+
+Ces graphiques sont configurés pour offrir une interface utilisateur interactive et intuitive.
+
+---
+
+## 📚 Ressources utiles
+
+- [Documentation Angular](https://angular.io/docs)
+- [Documentation Ngx-Charts](https://swimlane.github.io/ngx-charts/)
+
+---
+
+Merci pour votre curiosité 🎓
