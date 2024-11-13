@@ -4,7 +4,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-4.x-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Ngx-Charts](https://img.shields.io/badge/Ngx--Charts-Lines%20%26%20Pie-orange)](https://swimlane.github.io/ngx-charts/)
 
-**OlympicGamesStarter** est un projet Angular développé dans un cadre pédagogique pour le cursus Java-Angular d'OpenClassrooms. Ce projet a pour but d'approfondir les connaissances en développement front-end, avec un focus sur Angular et TypeScript, ainsi que sur l'import et l'utilisation d'une bibliothèque de la visualisation de données `ngx-charts`.
+**OlympicGamesStarter** est un projet Angular développé dans un cadre pédagogique pour le **cursus Full-Stack Java Angular d'OpenClassrooms**. Il a pour but d'approfondir les connaissances en développement front-end, avec un focus sur Angular et TypeScript, ainsi que sur l'import et l'utilisation d'une bibliothèque de visualisation de données, ici `ngx-charts`.
 
 ---
 
@@ -12,11 +12,11 @@
 
 Ce projet est une application Front-end Angular de visualisation de données olympiques, qui affiche des informations sur les performances de différents pays aux Jeux Olympiques. Les data ne sont pas issues d'appel à un back-end mais proviennent d'un fichier mock.
 
-Ce projet utilise des graphiques linéaires et circulaires grâce à la bibliothèque `ngx-charts` pour illustrer les données de manière interactive et attractive, avec un routage entre les pages.
+La bibliothèque `ngx-charts` est utilisée pour illustrer les données graphiquement, avec un routage entre les pages.
 
 ## 🛠️ Pré-requis
 
-Avant de commencer, assurez-vous d'avoir installé toutes les dépendances du projet en exécutant la commande :
+Pour commencer, installation des dépendances nécessaires avec la commande :
 
 ```bash
 npm install
@@ -26,13 +26,13 @@ npm install
 
 ## 🚀 Lancement du serveur de développement
 
-Pour lancer le serveur de développement, exécutez :
+Pour lancer le serveur de développement, exécuter dans le terminal :
 
 ```bash
 ng serve
 ```
 
-Ouvrez ensuite sur `http://localhost:4200/` dans votre navigateur. L'application se recharge automatiquement dès qu'une modification est apportée aux fichiers source.
+Le rendu est visible sur `http://localhost:4200/` dans votre navigateur.
 Une version dev en ligne liée à ce dépôt est disponible sur [https://oc-p2-olympics.vercel.app/](https://oc-p2-olympics.vercel.app/) .
 
 ---
@@ -58,7 +58,7 @@ Une architecture de base a été mise en place pour faciliter la compréhension 
   - **`models`** : interfaces TypeScript pour structurer les données et assurer le typage strict.
 
 - **`components`** : contient tous les composants réutilisables *medals-line-chart* et *medals-pie-chart*.
-- **`pages`** : contient les composants utilisés pour le routage et les vues principales de l'application *home*,*detail* et *not-found*.
+- **`pages`** : contient les composants utilisés pour le routage et les vues principales de l'application *home*, *detail* et *not-found*.
 
 ---
 
@@ -66,12 +66,11 @@ Une architecture de base a été mise en place pour faciliter la compréhension 
 
 Le projet intègre les fonctionnalités de visualisation de données suivantes grâce à `ngx-charts` :
 
-- **Graphiques en ligne** (Line Chart) pour observer les nombre de médailles par années olympiques.
+- **Graphiques en ligne** (Line Chart) pour observer les nombre de médailles par années olympiques pour un pays sélectionné.
 - **Graphiques en secteurs** (Pie Chart) pour comparer les totaux de médailles par pays.
 
-Ces graphiques sont configurés pour offrir une interface utilisateur interactive et intuitive.
+Le projet est développé en single-page app et est responsif sur différentes tailles d'écran.
 
-Le projet est développé pour être responsif sur différentes tailles d'écran.
 ---
 
 ## 📚 Ressources utiles
