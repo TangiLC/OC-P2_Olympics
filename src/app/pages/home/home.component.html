@@ -6,15 +6,7 @@
       {{ (olympicStats$ | async)?.maxTotalParticipations }}
     </p>
   </div>
-  <div class="flag-frame">
-    <p class="flag-data">
-      <span
-        *ngIf="selectedFlag$ | async"
-        [ngClass]="'fi fi-' + (selectedFlag$ | async)"
-      >
-      </span>
-    </p>
-  </div>
+
   <div class="frame">
     <p>Number of countries</p>
     <p class="frame-data">{{ (olympicStats$ | async)?.countryData?.length }}</p>

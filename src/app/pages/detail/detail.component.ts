@@ -3,28 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { switchMap, map, tap, defaultIfEmpty, startWith } from 'rxjs/operators';
 import { OlympicService } from 'src/app/core/services/olympic.service';
-import { CountryService } from 'src/app/core/services/country.service';
 
-interface CountryData {
-  name: string;
-  totalParticipations: number;
-  totalMedalCount: number[];
-  totalAthleteCount: number;
-}
-
-interface Game {
-  id: number;
-  year: number;
-  city: string;
-  medalsCount: number[];
-  athleteCount: number;
-}
-
-interface CountryDetail {
-  id: number;
-  country: number;
-  participations: Game[];
-}
+import { CountryTotalData } from 'src/app/core/models/Olympic';
 
 @Component({
   selector: 'app-detail',
@@ -32,27 +12,23 @@ interface CountryDetail {
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit {
-  countryData$: Observable<CountryData | undefined> = of(undefined);
+  countryData$: Observable<CountryTotalData | undefined> = of(undefined);
   lineChartData$: Observable<
     { name: string; series: { name: string; value: number }[] }[]
   > = of([]);
-  public selectedFlag$: Observable<string> = of('');
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private olympicService: OlympicService,
-    private countryService: CountryService
-  ) {
-    this.selectedFlag$ = this.countryService.getCountryFlag();
-  }
+    private olympicService: OlympicService
+  ) {}
 
   ngOnInit(): void {
     const countryName$ = this.route.paramMap.pipe(
       map((params) => params.get('country')),
       tap((countryName) => {
         if (countryName) {
-          this.countryService.setSelectedCountry(countryName);
+          this.olympicService.setSelectedCountry(countryName);
         }
       })
     );
@@ -63,7 +39,9 @@ export class DetailComponent implements OnInit {
           ? this.olympicService.getCountryDataByName(countryName).pipe(
               tap((data) => {
                 if (!data || (Array.isArray(data) && data.length === 0)) {
-                  this.olympicService.errorMessage$.next('Pas de données pour ce pays');
+                  this.olympicService.errorMessage$.next(
+                    'Pas de données pour ce pays'
+                  );
                   this.router.navigate(['/404']);
                 }
               })

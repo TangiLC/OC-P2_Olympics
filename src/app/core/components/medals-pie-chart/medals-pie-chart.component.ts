@@ -6,45 +6,44 @@ import {
 } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Router } from '@angular/router';
-import { CountryService } from '../../services/country.service';
+import { OlympicService } from '../../services/olympic.service';
 
 @Component({
   selector: 'app-medals-pie-chart',
   standalone: true,
   imports: [NgxChartsModule],
   templateUrl: './medals-pie-chart.component.html',
-  styleUrl: './medals-pie-chart.component.scss',
+  styleUrls: ['./medals-pie-chart.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class MedalsPieChartComponent {
   @Input() pieChartData: { name: string; value: number }[] | null = [];
   view: [number, number] = [0.5 * window.innerWidth, 0.45 * window.innerWidth];
 
-  constructor(private countryService: CountryService, private router: Router) {}
+  constructor(private router: Router, private olympicService: OlympicService) {}
 
-  setTooltipText(data: { data: any }): string {
+  setTooltipText(data: { data: { label: string; value: number } }): string {
     return `${data.data.label}<br>🏅${data.data.value}`;
   }
 
-  onSelect(data: any): void {
+  onSelect(data: { name: string }): void {
     const countryName = data.name;
-    console.log('country selected', countryName);
     if (countryName) {
-      this.countryService.setSelectedCountry(countryName);
+      this.olympicService.setSelectedCountry(countryName);
       this.router.navigate(['/detail', countryName]);
     }
   }
 
-  onActivate(data: any): void {
+  onActivate(data: { entries: { name: string }[] }): void {
     const countryName =
       data.entries && data.entries[0] ? data.entries[0].name : null;
     if (countryName) {
-      this.countryService.setSelectedCountry(countryName);
+      this.olympicService.setSelectedCountry(countryName);
     }
   }
 
-  onDeactivate(data: any): void {
-    this.countryService.setSelectedCountry('');
+  onDeactivate(data: { entries: { name: string }[] }): void {
+    this.olympicService.setSelectedCountry('');
   }
 
   @HostListener('window:resize', ['$event'])

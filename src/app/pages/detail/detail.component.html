@@ -4,8 +4,7 @@
       <i class="bi bi-caret-left-square-fill" alt="Back"></i>
     </a>
     <h1 class="main-title">
-      <span [ngClass]="'fi fi-' + (selectedFlag$ | async)"></span>
-      &nbsp;{{ country.name }}
+      {{ country.name }}
     </h1>
   </div>
 
@@ -57,6 +56,6 @@
     <a class="home" routerLink="/">
       <i class="bi bi-caret-left-square-fill" alt="Back"></i>
     </a>
-    <h1 class="main-title">...Loading</h1>
+    <h1 class="main-title">Loading data...</h1>
   </div>
 </ng-template>

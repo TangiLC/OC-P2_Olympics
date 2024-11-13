@@ -1,70 +1,63 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import {
   catchError,
   tap,
   map,
-  defaultIfEmpty,
   switchMap,
+  defaultIfEmpty,
 } from 'rxjs/operators';
 
-interface CountryTotalData {
-  name: string;
-  totalParticipations: number;
-  totalMedalCount: number[];
-  totalAthleteCount: number;
-}
-
-interface Game {
-  id: number;
-  year: number;
-  city: string;
-  medalsCount: number[];
-  athleteCount: number;
-}
-
-interface CountryDetail {
-  id: number;
-  country: number;
-  participations: Game[];
-}
+import { Game } from '../models/Participation';
+import { CountryDetail, CountryTotalData } from './../models/Olympic';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OlympicService {
   private olympicUrl = './assets/mock/olympic.json';
-  private olympics$ = new BehaviorSubject<any>(undefined);
+
+  private olympics$ = new BehaviorSubject<CountryDetail[] | null>(null);
   private olympicStats$ = new BehaviorSubject<{
     countryData: CountryTotalData[];
     maxTotalParticipations: number;
   } | null>(null);
+
+  private selectedCountry = new BehaviorSubject<string | null>(null);
+
   errorMessage$ = new BehaviorSubject<string | null>(null);
+
+  selectedCountry$: Observable<string | null> =
+    this.selectedCountry.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  loadInitialData() {
-    return this.http.get<any>(this.olympicUrl).pipe(
-      tap((value) => {
-        this.olympics$.next(value);
-        this.calculateStats(value);
+  loadInitialData(): Observable<CountryDetail[]> {
+    return this.http.get<CountryDetail[]>(this.olympicUrl).pipe(
+      tap((olympics) => {
+        this.olympics$.next(olympics);
+        this.calculateStats(olympics);
       }),
-      catchError((error, caught) => {
+      catchError((error) => {
         this.errorMessage$.next(
           `Données introuvables ou erreur serveur. ERR:${error.status}-${error.message}`
         );
         this.olympics$.next([]);
         this.olympicStats$.next({ countryData: [], maxTotalParticipations: 0 });
         this.router.navigate(['/404']);
-        return caught;
+        return of([]);
       })
     );
   }
 
-  getOlympics() {
+  getOlympics(): Observable<CountryDetail[] | null> {
     return this.olympics$.asObservable();
+  }
+
+  setSelectedCountry(countryName: string): void {
+    this.selectedCountry.next(countryName);
   }
 
   getCountryByName(countryName: string): Observable<CountryDetail | undefined> {
@@ -75,39 +68,43 @@ export class OlympicService {
             switchMap(() =>
               this.olympics$.pipe(
                 map((updatedCountries) =>
-                  updatedCountries.find((c: any) => c.country === countryName)
+                  updatedCountries?.find(
+                    (c: CountryDetail) => c.country === countryName
+                  )
                 )
               )
             )
           );
         } else {
-          return of(countries.find((c: any) => c.country === countryName));
+          return of(
+            countries.find((c: CountryDetail) => c.country === countryName)
+          );
         }
       })
     );
   }
 
-  private calculateStats(olympics: any) {
+  private calculateStats(olympics: CountryDetail[]): void {
     if (!olympics) {
       this.olympicStats$.next({ countryData: [], maxTotalParticipations: 0 });
       return;
     }
 
-    const countryData = olympics.map((country: any) => {
+    const countryData = olympics.map((country: CountryDetail) => {
       const name = country.country;
       const totalParticipations = country.participations.length;
       const totalMedalCount = country.participations.reduce(
-        (acc: number[], participation: any) => {
+        (acc: number[], participation: Game) => {
           return [
-            acc[0] + participation.medalsCount[0], // Gold
-            acc[1] + participation.medalsCount[1], // Silver
-            acc[2] + participation.medalsCount[2], // Bronze
+            acc[0] + (participation.medalsCount[0] || 0),
+            acc[1] + (participation.medalsCount[1] || 0),
+            acc[2] + (participation.medalsCount[2] || 0),
           ];
         },
         [0, 0, 0]
       );
       const totalAthleteCount = country.participations.reduce(
-        (acc: number, participation: any) => acc + participation.athleteCount,
+        (acc: number, participation: Game) => acc + participation.athleteCount,
         0
       );
 
@@ -121,13 +118,16 @@ export class OlympicService {
     });
 
     const maxTotalParticipations = Math.max(
-      ...countryData.map((country: any) => country.totalParticipations)
+      ...countryData.map((country) => country.totalParticipations)
     );
 
     this.olympicStats$.next({ countryData, maxTotalParticipations });
   }
 
-  getOlympicStats() {
+  getOlympicStats(): Observable<{
+    countryData: CountryTotalData[];
+    maxTotalParticipations: number;
+  } | null> {
     return this.olympicStats$.asObservable();
   }
 
@@ -145,7 +145,9 @@ export class OlympicService {
     );
   }
 
-  getMedalsByCountryName(countryName: string): Observable<any> {
+  getMedalsByCountryName(
+    countryName: string
+  ): Observable<{ name: string; series: { name: string; value: number }[] }[]> {
     return this.getCountryByName(countryName).pipe(
       map((countryDetail) => {
         if (!countryDetail) {

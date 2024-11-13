@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OlympicService } from 'src/app/core/services/olympic.service';
-import { CountryService } from 'src/app/core/services/country.service';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +10,6 @@ import { CountryService } from 'src/app/core/services/country.service';
 })
 export class HomeComponent implements OnInit {
   public olympics$: Observable<any> = of(null);
-  public selectedFlag$: Observable<string> = of('');
   public olympicStats$: Observable<{
     countryData: {
       name: string;
@@ -25,12 +23,7 @@ export class HomeComponent implements OnInit {
     { name: 'no data', value: 0 },
   ]);
 
-  constructor(
-    private olympicService: OlympicService,
-    private countryService: CountryService
-  ) {
-    this.selectedFlag$ = this.countryService.getCountryFlag();
-  }
+  constructor(private olympicService: OlympicService) {}
 
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
