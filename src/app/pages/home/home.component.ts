@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { OlympicService } from 'src/app/core/services/olympic.service';
+import { OlympicsService } from 'src/app/core/services/olympics.service';
 
 @Component({
   selector: 'app-home',
@@ -22,10 +22,10 @@ export class HomeComponent implements OnInit {
     { name: 'no data', value: 0 },
   ]);
 
-  constructor(private olympicService: OlympicService) {}
+  constructor(private olympicsService: OlympicsService) {}
 
   ngOnInit(): void {
-    this.olympicStats$ = this.olympicService.getOlympicStats();
+    this.olympicStats$ = this.olympicsService.getOlympicStats();
     this.pieChartData$ = this.olympicStats$.pipe(
       map((stats) =>
         stats && stats.countryData

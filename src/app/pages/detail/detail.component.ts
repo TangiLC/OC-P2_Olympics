@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { switchMap, map, tap, defaultIfEmpty, startWith } from 'rxjs/operators';
-import { OlympicService } from 'src/app/core/services/olympic.service';
+import { OlympicsService } from 'src/app/core/services/olympics.service';
+import { CountryService } from 'src/app/core/services/country.service';
 
 import { CountryTotalData } from 'src/app/core/models/Olympic';
 
@@ -20,7 +21,8 @@ export class DetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private olympicService: OlympicService
+    private olympicsService: OlympicsService,
+    private countryService: CountryService
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +30,7 @@ export class DetailComponent implements OnInit {
       map((params) => params.get('country')),
       tap((countryName) => {
         if (countryName) {
-          this.olympicService.setSelectedCountry(countryName);
+          this.countryService.setSelectedCountry(countryName);
         }
       })
     );
@@ -36,10 +38,10 @@ export class DetailComponent implements OnInit {
     this.countryData$ = countryName$.pipe(
       switchMap((countryName) =>
         countryName
-          ? this.olympicService.getCountryDataByName(countryName).pipe(
+          ? this.countryService.getCountryDataByName(countryName).pipe(
               tap((data) => {
                 if (!data || (Array.isArray(data) && data.length === 0)) {
-                  this.olympicService.errorMessage$.next(
+                  this.olympicsService.errorMessage$.next(
                     'Pas de données pour ce pays'
                   );
                   this.router.navigate(['/404']);
@@ -53,7 +55,7 @@ export class DetailComponent implements OnInit {
     this.lineChartData$ = countryName$.pipe(
       switchMap((countryName) =>
         countryName
-          ? this.olympicService
+          ? this.countryService
               .getMedalsByCountryName(countryName)
               .pipe(startWith([]), defaultIfEmpty([]))
           : of([])

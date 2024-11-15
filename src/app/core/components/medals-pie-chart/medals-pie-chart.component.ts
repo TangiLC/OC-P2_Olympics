@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Router } from '@angular/router';
-import { OlympicService } from '../../services/olympic.service';
+import { CountryService } from '../../services/country.service';
 
 @Component({
   selector: 'app-medals-pie-chart',
@@ -24,7 +24,7 @@ export class MedalsPieChartComponent {
   ];
   labels: boolean = window.innerWidth > 768;
 
-  constructor(private router: Router, private olympicService: OlympicService) {}
+  constructor(private router: Router, private countryService: CountryService) {}
 
   setTooltipText(data: { data: { label: string; value: number } }): string {
     return `${data.data.label}<br>🏅${data.data.value}`;
@@ -33,7 +33,7 @@ export class MedalsPieChartComponent {
   onSelect(data: { name: string }): void {
     const countryName = data.name;
     if (countryName) {
-      this.olympicService.setSelectedCountry(countryName);
+      this.countryService.setSelectedCountry(countryName);
       this.router.navigate(['/detail', countryName]);
     }
   }
@@ -42,12 +42,12 @@ export class MedalsPieChartComponent {
     const countryName =
       data.entries && data.entries[0] ? data.entries[0].name : null;
     if (countryName) {
-      this.olympicService.setSelectedCountry(countryName);
+      this.countryService.setSelectedCountry(countryName);
     }
   }
 
   onDeactivate(data: { entries: { name: string }[] }): void {
-    this.olympicService.setSelectedCountry('');
+    this.countryService.setSelectedCountry('');
   }
 
   @HostListener('window:resize', ['$event'])
