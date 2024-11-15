@@ -6,6 +6,8 @@
 
 **OlympicGamesStarter** est un projet Angular développé dans un cadre pédagogique pour le **cursus Full-Stack Java Angular d'OpenClassrooms**. Il a pour but d'approfondir les connaissances en développement front-end, avec un focus sur Angular et TypeScript, ainsi que sur l'import et l'utilisation d'une bibliothèque de visualisation de données, ici `ngx-charts`.
 
+Le repo initial est disponible sur [Github](https://github.com/OpenClassrooms-Student-Center/Developpez-le-front-end-en-utilisant-Angular)
+
 ---
 
 ## 📝 Description
@@ -54,11 +56,12 @@ Les fichiers générés seront stockés dans le répertoire `dist/`.
 Une architecture de base a été mise en place pour faciliter la compréhension et l'organisation du code. Voici les principales sections :
 
 - **`core`** : contient la logique métier et les services.
-  - **`services`** : services utilisés pour récupérer et normaliser les données olympiques et gérer les interactions avec l'API.
+
+  - **`services`** : services utilisés pour récupérer et normaliser les données olympiques et gérer les interactions avec le dashboard.
   - **`models`** : interfaces TypeScript pour structurer les données et assurer le typage strict.
 
-- **`components`** : contient tous les composants réutilisables *medals-line-chart* et *medals-pie-chart*.
-- **`pages`** : contient les composants utilisés pour le routage et les vues principales de l'application *home*, *detail* et *not-found*.
+- **`components`** : contient tous les composants réutilisables _medals-line-chart_ et _medals-pie-chart_.
+- **`pages`** : contient les composants utilisés pour le routage et les vues principales de l'application _home_, _detail_ et _not-found_.
 
 ---
 

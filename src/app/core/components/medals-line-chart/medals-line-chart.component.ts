@@ -1,4 +1,4 @@
-import { Component, Input, HostListener } from '@angular/core';
+import { Component, Input, HostListener,ViewEncapsulation } from '@angular/core';
 import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
 
 @Component({
@@ -7,6 +7,7 @@ import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
   imports: [NgxChartsModule],
   templateUrl: './medals-line-chart.component.html',
   styleUrls: ['./medals-line-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class MedalsLineChartComponent {
   @Input() lineChartData: {
@@ -27,7 +28,7 @@ export class MedalsLineChartComponent {
     name: 'MedalsColors',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#ffb14e', '#dcdcdc', '#b87333', '#04838f'],
+    domain: ['#ffb14e', '#ccccd4', '#b87333', '#04838f'],
   };
 
   @HostListener('window:resize', ['$event'])

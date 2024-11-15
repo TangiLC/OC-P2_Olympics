@@ -20,26 +20,16 @@
 .frame {
   margin-top:.5rem;
   border: .2rem solid var(--bg-primary-color);
-  padding: .5rem;
   width: 45%;
   border-radius: .6rem;
   text-align: center;
+  line-height:normal;
 }
 
 .frame-data {
   font-weight: 700;
   font-size: 1.4rem;
+  margin:0px;
+  padding-bottom:10px;
 }
 
-.flag-frame{
-  width: 5%;
-  height:40px;
-  text-align: center;
-}
-.flag-data {
-  font-size: 36px;
-}
-
-/*.fi{
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 9px;
-}*/

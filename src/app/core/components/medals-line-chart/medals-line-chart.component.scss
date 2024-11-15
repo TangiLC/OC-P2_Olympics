@@ -4,4 +4,10 @@
   width: 90%;
   min-height: 40dvh;
   margin: auto;
+  margin-top:2rem;
+}
+
+.line-series path {
+  stroke-width: 3px;
+  stroke-linecap: round;
 }

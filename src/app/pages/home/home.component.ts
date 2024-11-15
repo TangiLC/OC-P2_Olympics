@@ -9,7 +9,6 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  public olympics$: Observable<any> = of(null);
   public olympicStats$: Observable<{
     countryData: {
       name: string;
@@ -26,9 +25,8 @@ export class HomeComponent implements OnInit {
   constructor(private olympicService: OlympicService) {}
 
   ngOnInit(): void {
-    this.olympics$ = this.olympicService.getOlympics();
     this.olympicStats$ = this.olympicService.getOlympicStats();
-    this.pieChartData$ = this.olympicService.getOlympicStats().pipe(
+    this.pieChartData$ = this.olympicStats$.pipe(
       map((stats) =>
         stats && stats.countryData
           ? stats.countryData.map((country) => ({

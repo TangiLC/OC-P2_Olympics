@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, forkJoin } from 'rxjs';
+import { BehaviorSubject, Observable, of, timer } from 'rxjs';
 import { Router } from '@angular/router';
 import {
   catchError,
@@ -25,6 +25,7 @@ export class OlympicService {
     maxTotalParticipations: number;
   } | null>(null);
 
+  private refreshDataDelay: number = 5000;
   private selectedCountry = new BehaviorSubject<string | null>(null);
 
   errorMessage$ = new BehaviorSubject<string | null>(null);
@@ -35,25 +36,28 @@ export class OlympicService {
   constructor(private http: HttpClient, private router: Router) {}
 
   loadInitialData(): Observable<CountryDetail[]> {
-    return this.http.get<CountryDetail[]>(this.olympicUrl).pipe(
-      tap((olympics) => {
-        this.olympics$.next(olympics);
-        this.calculateStats(olympics);
-      }),
-      catchError((error) => {
-        this.errorMessage$.next(
-          `Données introuvables ou erreur serveur. ERR:${error.status}-${error.message}`
-        );
-        this.olympics$.next([]);
-        this.olympicStats$.next({ countryData: [], maxTotalParticipations: 0 });
-        this.router.navigate(['/404']);
-        return of([]);
-      })
+    return timer(0, this.refreshDataDelay).pipe(
+      switchMap(() =>
+        this.http.get<CountryDetail[]>(this.olympicUrl).pipe(
+          tap((olympics) => {
+            this.olympics$.next(olympics);
+            this.calculateStats(olympics);
+          }),
+          catchError((error) => {
+            this.errorMessage$.next(
+              `Données introuvables ou erreur serveur. ERR:${error.status}-${error.message}`
+            );
+            this.olympics$.next([]);
+            this.olympicStats$.next({
+              countryData: [],
+              maxTotalParticipations: 0,
+            });
+            this.router.navigate(['/404']);
+            return of([]);
+          })
+        )
+      )
     );
-  }
-
-  getOlympics(): Observable<CountryDetail[] | null> {
-    return this.olympics$.asObservable();
   }
 
   setSelectedCountry(countryName: string): void {
@@ -157,13 +161,13 @@ export class OlympicService {
         const medalData = medalTypes.map((type, index) => ({
           name: type,
           series: countryDetail.participations.map((participation) => ({
-            name: participation.year.toString(),
+            name: participation.year.toString() + '-' + participation.city,
             value: participation.medalsCount[index] || 0,
           })),
         }));
         const totalSeries = countryDetail.participations.map(
           (participation) => ({
-            name: participation.year.toString(),
+            name: participation.year.toString() + '-' + participation.city,
             value: participation.medalsCount.reduce((a, b) => a + b, 0),
           })
         );
