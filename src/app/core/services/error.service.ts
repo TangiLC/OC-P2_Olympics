@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, delay, tap,first } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 export class ErrorService {
   private errorMessage = new BehaviorSubject<string | null>(null);
   errorMessage$ = this.errorMessage.asObservable();
+  private hasNavigated: boolean = false;
 
   constructor(private router: Router) {}
 
@@ -23,8 +24,38 @@ export class ErrorService {
     return this.errorMessage$;
   }
 
-  setErrorAndNavigate(message: string, path: string): void {
-    this.setErrorMessage(message);
+  clearAndNavigate(path: string): void {
+    this.clearErrorMessage();
+    this.errorMessage$
+      .pipe(
+        first(),
+        tap((e) => {
+          //console.log('clear error', e);
+          this.router.navigate([path]).then(() => {
+            this.hasNavigated = false;
+          });
+        })
+      )
+      .subscribe();
     this.router.navigate([path]);
+  }
+
+  setErrorAndNavigate(message: string, path: string): void {
+    if (!this.hasNavigated) {
+      this.hasNavigated = true;
+      this.errorMessage.next(message);
+
+      this.errorMessage$
+        .pipe(
+          first(),
+          tap((e) => {
+            //console.log('display error', e);
+            this.router.navigate([path]).then(() => {
+              this.hasNavigated = false;
+            });
+          })
+        )
+        .subscribe();
+    }
   }
 }

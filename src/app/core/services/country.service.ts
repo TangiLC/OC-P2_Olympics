@@ -51,7 +51,7 @@ export class CountryService {
                 if (!data) {
                   this.errorService.setErrorAndNavigate(
                     `Pas de données pour : ${countryName}`,
-                    '/404'
+                    '/not-found'
                   );
                 }
               })
@@ -72,7 +72,7 @@ export class CountryService {
                 if (!data || data.length === 0) {
                   this.errorService.setErrorAndNavigate(
                     `Pas de données de médailles pour : ${countryName}`,
-                    '/404'
+                    '/not-found'
                   );
                 }
               }),

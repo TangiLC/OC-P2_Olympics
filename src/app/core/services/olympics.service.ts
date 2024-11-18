@@ -18,10 +18,7 @@ export class OlympicsService {
   } | null>(null);
   private refreshDataDelay = 5000;
 
-  constructor(
-    private http: HttpClient,
-    private errorService: ErrorService
-  ) {}
+  constructor(private http: HttpClient, private errorService: ErrorService) {}
 
   loadInitialData(): Observable<CountryDetail[]> {
     return timer(0, this.refreshDataDelay).pipe(
@@ -30,11 +27,12 @@ export class OlympicsService {
           tap((olympics) => {
             this.olympics$.next(olympics);
             this.olympicStats$.next(calculateStats(olympics));
-            this.errorService.clearErrorMessage();
           }),
           catchError((error) => {
-            const errMsg = `Données introuvables ou erreur serveur. ERR:${error.status}-${error.message}`;
-            this.errorService.setErrorAndNavigate(errMsg, '/404');
+            this.errorService.setErrorAndNavigate(
+              `Données introuvables ou erreur serveur. ERR:${error.status}-${error.message}`,
+              '/not-found'
+            );
             this.olympics$.next([]);
             this.olympicStats$.next({
               countryData: [],
