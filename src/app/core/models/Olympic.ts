@@ -1,7 +1,7 @@
 import { Game } from './Participation';
 
 export interface CountryDetail {
-  id: number;
+  id?: number;
   country: string;
   participations: Game[];
 }

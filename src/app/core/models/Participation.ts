@@ -1,5 +1,5 @@
 export interface Game {
-  id: number;
+  id?: number;
   year: number;
   city: string;
   medalsCount: [number, number, number]; //  [gold,silver,bronze]

@@ -1,11 +1,11 @@
 import { CountryDetail, CountryTotalData } from '../../models/Olympic';
 import { Game } from '../../models/Participation';
 
-export function calculateStats(olympics: CountryDetail[]|null): {
+export function calculateStats(olympics: CountryDetail[] | null): {
   countryData: CountryTotalData[];
   maxTotalParticipations: number;
 } {
-  if (!olympics) {
+  if (!olympics || olympics.length === 0) {
     return { countryData: [], maxTotalParticipations: 0 };
   }
 
@@ -38,7 +38,7 @@ export function calculateStats(olympics: CountryDetail[]|null): {
       totalParticipations,
       totalMedalCount,
       totalAthleteCount,
-      participations: country.participations,
+      //participations: country.participations,
     };
   });
 

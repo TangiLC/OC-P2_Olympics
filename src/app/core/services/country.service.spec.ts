@@ -30,40 +30,16 @@ describe('CountryService', () => {
       id: 1,
       country: 'Country A',
       participations: [
-        {
-          id: 1,
-          year: 1988,
-          city: 'Seoul',
-          medalsCount: [3, 2, 1],
-          athleteCount: 100,
-        },
-        {
-          id: 2,
-          year: 1992,
-          city: 'Barcelona',
-          medalsCount: [7, 3, 2],
-          athleteCount: 100,
-        },
+        {year: 1988,city: 'Seoul',medalsCount: [3, 2, 1],athleteCount: 100 },
+        {year: 1992,city: 'Barcelona',medalsCount: [7, 3, 2],athleteCount: 100},
       ],
     },
     {
       id: 2,
       country: 'Country B',
       participations: [
-        {
-          id: 3,
-          year: 1988,
-          city: 'Seoul',
-          medalsCount: [10, 5, 3],
-          athleteCount: 200,
-        },
-        {
-          id: 4,
-          year: 1992,
-          city: 'Barcelona',
-          medalsCount: [10, 10, 5],
-          athleteCount: 200,
-        },
+        {year: 1988,city: 'Seoul',medalsCount: [10, 5, 3],athleteCount: 200},
+        {year: 1992,city: 'Barcelona',medalsCount: [10, 10, 5],athleteCount: 200},
       ],
     },
   ];

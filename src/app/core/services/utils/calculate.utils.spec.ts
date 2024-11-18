@@ -2,90 +2,49 @@ import { calculateStats } from './calculate.utils';
 import { CountryDetail } from '../../models/Olympic';
 
 describe('calculateStats', () => {
-  it('should return default values when input is null or undefined', () => {
+  it('should return default values when input is null or empty', () => {
     expect(calculateStats(null)).toEqual({
+      countryData: [],
+      maxTotalParticipations: 0,
+    });
+    expect(calculateStats([])).toEqual({
       countryData: [],
       maxTotalParticipations: 0,
     });
   });
 
-  it('should return empty data and zero maxTotalParticipations for empty array input', () => {
-    const result = calculateStats([]);
-    expect(result).toEqual({ countryData: [], maxTotalParticipations: 0 });
-  });
-
-  it('should calculate stats for a single country with multiple participations', () => {
+  it('should calculate stats for a country with multiple participations', () => {
     const mockOlympics: CountryDetail[] = [
-      {
-        id: 1,
-        country: 'Country A',
+      {country: 'Country A',
         participations: [
-          {
-            id: 1,
-            year: 1988,
-            city: 'Seoul',
-            medalsCount: [2, 1, 0],
-            athleteCount: 100,
-          },
-          {
-            id: 2,
-            year: 1992,
-            city: 'Barcelona',
-            medalsCount: [3, 2, 1],
-            athleteCount: 120,
-          },
+          {year: 1988, city: 'Seoul', medalsCount: [2, 1, 0], athleteCount: 100},
+          {year: 1992, city: 'Barce', medalsCount: [3, 2, 1], athleteCount: 120},
         ],
       },
     ];
-
     const result = calculateStats(mockOlympics);
-
     expect(result.countryData).toEqual([
       {
         name: 'Country A',
         totalParticipations: 2,
         totalMedalCount: [5, 3, 1],
         totalAthleteCount: 220,
-        //participations: mockOlympics[0].participations,
       },
     ]);
-
     expect(result.maxTotalParticipations).toBe(2);
   });
 
   it('should calculate stats for multiple countries', () => {
     const mockOlympics: CountryDetail[] = [
-      {
-        id: 1,
-        country: 'Country A',
+      {country: 'Country A',
         participations: [
-          {
-            id: 1,
-            year: 1988,
-            city: 'Seoul',
-            medalsCount: [2, 1, 0],
-            athleteCount: 100,
-          },
+          {year: 1992, city: 'Barce', medalsCount: [3, 2, 1], athleteCount: 120},
         ],
       },
-      {
-        id: 2,
-        country: 'Country B',
+      {country: 'Country B',
         participations: [
-          {
-            id: 2,
-            year: 1992,
-            city: 'Barcelona',
-            medalsCount: [5, 3, 1],
-            athleteCount: 150,
-          },
-          {
-            id: 3,
-            year: 1996,
-            city: 'Atlanta',
-            medalsCount: [6, 4, 2],
-            athleteCount: 200,
-          },
+          {year: 1988, city: 'Seoul', medalsCount: [9, 8, 7], athleteCount: 50},
+          {year: 1992, city: 'Barce', medalsCount: [1, 2, 3], athleteCount: 100},
         ],
       },
     ];
@@ -96,16 +55,14 @@ describe('calculateStats', () => {
       {
         name: 'Country A',
         totalParticipations: 1,
-        totalMedalCount: [2, 1, 0],
-        totalAthleteCount: 100,
-        //participations: mockOlympics[0].participations,
+        totalMedalCount: [3,2,1],
+        totalAthleteCount: 120,
       },
       {
         name: 'Country B',
         totalParticipations: 2,
-        totalMedalCount: [11, 7, 3], // [5+6, 3+4, 1+2]
-        totalAthleteCount: 350, // 150+200
-        //participations: mockOlympics[1].participations,
+        totalMedalCount: [10,10,10],
+        totalAthleteCount: 150,
       },
     ]);
 
