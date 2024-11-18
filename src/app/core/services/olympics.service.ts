@@ -1,6 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, timer } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  of,
+  timer,
+  takeUntil,
+  Subject,
+} from 'rxjs';
 import { tap, catchError, switchMap, map } from 'rxjs/operators';
 import { calculateStats } from './utils/calculate.utils';
 import { CountryDetail, CountryTotalData } from '../models/Olympic';
@@ -17,11 +24,12 @@ export class OlympicsService {
     maxTotalParticipations: number;
   } | null>(null);
   private refreshDataDelay = 5000;
-
+  private destroy$ = new Subject<void>();
   constructor(private http: HttpClient, private errorService: ErrorService) {}
 
   loadInitialData(): Observable<CountryDetail[]> {
     return timer(0, this.refreshDataDelay).pipe(
+      takeUntil(this.destroy$),
       switchMap(() =>
         this.http.get<CountryDetail[]>(this.olympicUrl).pipe(
           tap((olympics) => {
@@ -67,5 +75,10 @@ export class OlympicsService {
           : [{ name: 'no data', value: 0 }]
       )
     );
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

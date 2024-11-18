@@ -1,7 +1,7 @@
 import { CountryDetail, CountryTotalData } from '../../models/Olympic';
 import { Game } from '../../models/Participation';
 
-export function calculateStats(olympics: CountryDetail[]): {
+export function calculateStats(olympics: CountryDetail[]|null): {
   countryData: CountryTotalData[];
   maxTotalParticipations: number;
 } {
@@ -14,10 +14,16 @@ export function calculateStats(olympics: CountryDetail[]): {
     const totalParticipations = country.participations.length;
     const totalMedalCount = country.participations.reduce(
       (acc: number[], participation: Game) => {
+        const medals = participation.medalsCount || [];
+        const normalizedMedals = [
+          medals[0] || 0,
+          medals[1] || 0,
+          medals[2] || 0,
+        ];
         return [
-          acc[0] + (participation.medalsCount[0] || 0),
-          acc[1] + (participation.medalsCount[1] || 0),
-          acc[2] + (participation.medalsCount[2] || 0),
+          acc[0] + normalizedMedals[0],
+          acc[1] + normalizedMedals[1],
+          acc[2] + normalizedMedals[2],
         ];
       },
       [0, 0, 0]
@@ -41,11 +47,4 @@ export function calculateStats(olympics: CountryDetail[]): {
   );
 
   return { countryData, maxTotalParticipations };
-
-
 }
-
-
-
-
-

@@ -23,13 +23,16 @@ export class DetailComponent implements OnInit {
 
   ngOnInit(): void {
     const countryName$ = this.route.paramMap.pipe(
-      map((params) => params.get('country')),
+      map((params) => {
+        return params.get('country');
+      }),
       tap((countryName) => {
         if (countryName) {
           this.countryService.setSelectedCountry(countryName);
         }
       })
     );
+    countryName$.subscribe();
 
     this.countryData$ =
       this.countryService.getCountryDataOrHandleError(countryName$);
