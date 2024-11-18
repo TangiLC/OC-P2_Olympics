@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OlympicsService } from 'src/app/core/services/olympics.service';
+import { CountryTotalData } from 'src/app/core/models/Olympic';
 
 @Component({
   selector: 'app-home',
@@ -10,11 +11,7 @@ import { OlympicsService } from 'src/app/core/services/olympics.service';
 })
 export class HomeComponent implements OnInit {
   public olympicStats$: Observable<{
-    countryData: {
-      name: string;
-      totalParticipations: number;
-      totalMedalCount: number[];
-    }[];
+    countryData: CountryTotalData[];
     maxTotalParticipations: number;
   } | null> = of({ countryData: [], maxTotalParticipations: 0 });
 
@@ -26,15 +23,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.olympicStats$ = this.olympicsService.getOlympicStats();
-    this.pieChartData$ = this.olympicStats$.pipe(
-      map((stats) =>
-        stats && stats.countryData
-          ? stats.countryData.map((country) => ({
-              name: country.name,
-              value: country.totalMedalCount.reduce((acc, val) => acc + val, 0),
-            }))
-          : [{ name: 'no data', value: 0 }]
-      )
-    );
+    this.pieChartData$ = this.olympicsService.getPieChartData();
   }
 }

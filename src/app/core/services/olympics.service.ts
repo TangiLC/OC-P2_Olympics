@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, timer } from 'rxjs';
-import { tap, catchError, switchMap } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { tap, catchError, switchMap, map } from 'rxjs/operators';
 import { calculateStats } from './utils/calculate.utils';
 import { CountryDetail, CountryTotalData } from '../models/Olympic';
 import { ErrorService } from './error.service';
@@ -21,8 +20,7 @@ export class OlympicsService {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
-    private errorService: ErrorService // Inject ErrorService
+    private errorService: ErrorService
   ) {}
 
   loadInitialData(): Observable<CountryDetail[]> {
@@ -58,5 +56,18 @@ export class OlympicsService {
     maxTotalParticipations: number;
   } | null> {
     return this.olympicStats$.asObservable();
+  }
+
+  getPieChartData(): Observable<{ name: string; value: number }[]> {
+    return this.getOlympicStats().pipe(
+      map((stats) =>
+        stats && stats.countryData
+          ? stats.countryData.map((country) => ({
+              name: country.name,
+              value: country.totalMedalCount.reduce((acc, val) => acc + val, 0),
+            }))
+          : [{ name: 'no data', value: 0 }]
+      )
+    );
   }
 }

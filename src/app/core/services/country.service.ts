@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { map, switchMap, tap, defaultIfEmpty } from 'rxjs/operators';
 import { OlympicsService } from './olympics.service';
 import { ErrorService } from './error.service';
@@ -9,13 +9,15 @@ import { CountryDetail, CountryTotalData } from '../models/Olympic';
   providedIn: 'root',
 })
 export class CountryService {
+  private selectedCountry = new BehaviorSubject<string | null>(null);
+  selectedCountry$ = this.selectedCountry.asObservable();
   constructor(
     private olympicsService: OlympicsService,
     private errorService: ErrorService
   ) {}
 
   setSelectedCountry(countryName: string): void {
-    // Logic remains unchanged
+    this.selectedCountry.next(countryName);
   }
 
   getCountryDataByName(
