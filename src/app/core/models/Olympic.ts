@@ -3,7 +3,6 @@ import { Game } from './Participation';
 export interface CountryDetail {
   id: number;
   country: string;
-  shortName:string;
   participations: Game[];
 }
 

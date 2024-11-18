@@ -17,24 +17,6 @@ export class CountryService {
     this.selectedCountry.next(countryName);
   }
 
-  getCountryByName(countryName: string): Observable<CountryDetail | undefined> {
-    return this.olympicsService.getOlympics().pipe(
-      switchMap((countries) => {
-        if (!countries || countries.length === 0) {
-          return this.olympicsService
-            .loadInitialData()
-            .pipe(
-              map((updatedCountries) =>
-                updatedCountries.find((c) => c.country === countryName)
-              )
-            );
-        } else {
-          return of(countries.find((c) => c.country === countryName));
-        }
-      })
-    );
-  }
-
   getCountryDataByName(
     countryName: string
   ): Observable<CountryTotalData | undefined> {
@@ -58,11 +40,20 @@ export class CountryService {
   getMedalsByCountryName(
     countryName: string
   ): Observable<{ name: string; series: { name: string; value: number }[] }[]> {
-    return this.getCountryByName(countryName).pipe(
-      map((countryDetail) => {
+    return this.olympicsService.getOlympics().pipe(
+      switchMap((countries) =>
+        countries && countries.length > 0
+          ? of(countries)
+          : this.olympicsService.loadInitialData()
+      ),
+      map((countries) => {
+        const countryDetail = countries.find(
+          (country) => country.country === countryName
+        );
         if (!countryDetail) {
           return [];
         }
+
         const medalTypes = ['gold', 'silver', 'bronze'];
         const medalData = medalTypes.map((type, index) => ({
           name: type,

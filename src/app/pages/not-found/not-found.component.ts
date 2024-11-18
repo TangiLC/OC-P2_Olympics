@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { OlympicsService } from 'src/app/core/services/olympics.service';
+import { ErrorService } from 'src/app/core/services/error.service';
 
 @Component({
   selector: 'app-not-found',
@@ -10,15 +10,13 @@ import { OlympicsService } from 'src/app/core/services/olympics.service';
 })
 export class NotFoundComponent implements OnInit {
   errorMessage$: Observable<string | null>;
-  constructor(
-    private olympicsService: OlympicsService,
-    private router: Router
-  ) {
-    this.errorMessage$ = this.olympicsService.errorMessage$.asObservable();
+
+  constructor(private errorService: ErrorService, private router: Router) {
+    this.errorMessage$ = this.errorService.getErrorMessage();
   }
 
   clearError(): void {
-    this.olympicsService.errorMessage$.next(null);
+    this.errorService.clearErrorMessage();
     this.router.navigate(['/']);
   }
 

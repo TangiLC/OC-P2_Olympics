@@ -41,4 +41,11 @@ export function calculateStats(olympics: CountryDetail[]): {
   );
 
   return { countryData, maxTotalParticipations };
+
+
 }
+
+
+
+
+

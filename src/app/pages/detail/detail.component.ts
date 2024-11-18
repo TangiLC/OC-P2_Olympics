@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { switchMap, map, tap, defaultIfEmpty, startWith } from 'rxjs/operators';
+import { switchMap, map, tap, startWith, defaultIfEmpty } from 'rxjs/operators';
 import { OlympicsService } from 'src/app/core/services/olympics.service';
 import { CountryService } from 'src/app/core/services/country.service';
+import { ErrorService } from 'src/app/core/services/error.service';
 
 import { CountryTotalData } from 'src/app/core/models/Olympic';
 
@@ -22,7 +23,8 @@ export class DetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private olympicsService: OlympicsService,
-    private countryService: CountryService
+    private countryService: CountryService,
+    private errorService: ErrorService
   ) {}
 
   ngOnInit(): void {
@@ -41,10 +43,10 @@ export class DetailComponent implements OnInit {
           ? this.countryService.getCountryDataByName(countryName).pipe(
               tap((data) => {
                 if (!data || (Array.isArray(data) && data.length === 0)) {
-                  this.olympicsService.errorMessage$.next(
-                    'Pas de données pour ce pays'
+                  this.errorService.setErrorAndNavigate(
+                    `Pas de données pour : ${countryName}`,
+                    '/404'
                   );
-                  this.router.navigate(['/404']);
                 }
               })
             )

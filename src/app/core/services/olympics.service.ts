@@ -5,6 +5,7 @@ import { tap, catchError, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { calculateStats } from './utils/calculate.utils';
 import { CountryDetail, CountryTotalData } from '../models/Olympic';
+import { ErrorService } from './error.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,9 +19,11 @@ export class OlympicsService {
   } | null>(null);
   private refreshDataDelay = 5000;
 
-  errorMessage$ = new BehaviorSubject<string | null>(null);
-
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private errorService: ErrorService // Inject ErrorService
+  ) {}
 
   loadInitialData(): Observable<CountryDetail[]> {
     return timer(0, this.refreshDataDelay).pipe(
@@ -29,17 +32,16 @@ export class OlympicsService {
           tap((olympics) => {
             this.olympics$.next(olympics);
             this.olympicStats$.next(calculateStats(olympics));
+            this.errorService.clearErrorMessage();
           }),
           catchError((error) => {
-            this.errorMessage$.next(
-              `Données introuvables ou erreur serveur. ERR:${error.status}-${error.message}`
-            );
+            const errMsg = `Données introuvables ou erreur serveur. ERR:${error.status}-${error.message}`;
+            this.errorService.setErrorAndNavigate(errMsg, '/404');
             this.olympics$.next([]);
             this.olympicStats$.next({
               countryData: [],
               maxTotalParticipations: 0,
             });
-            this.router.navigate(['/404']);
             return of([]);
           })
         )
