@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { switchMap, map, tap, startWith, defaultIfEmpty } from 'rxjs/operators';
-import { OlympicsService } from 'src/app/core/services/olympics.service';
+import { map, tap } from 'rxjs/operators';
 import { CountryService } from 'src/app/core/services/country.service';
-import { ErrorService } from 'src/app/core/services/error.service';
-
 import { CountryTotalData } from 'src/app/core/models/Olympic';
 
 @Component({
@@ -21,10 +18,7 @@ export class DetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-    private olympicsService: OlympicsService,
-    private countryService: CountryService,
-    private errorService: ErrorService
+    private countryService: CountryService
   ) {}
 
   ngOnInit(): void {
@@ -37,31 +31,10 @@ export class DetailComponent implements OnInit {
       })
     );
 
-    this.countryData$ = countryName$.pipe(
-      switchMap((countryName) =>
-        countryName
-          ? this.countryService.getCountryDataByName(countryName).pipe(
-              tap((data) => {
-                if (!data || (Array.isArray(data) && data.length === 0)) {
-                  this.errorService.setErrorAndNavigate(
-                    `Pas de données pour : ${countryName}`,
-                    '/404'
-                  );
-                }
-              })
-            )
-          : of(undefined)
-      )
-    );
+    this.countryData$ =
+      this.countryService.getCountryDataOrHandleError(countryName$);
 
-    this.lineChartData$ = countryName$.pipe(
-      switchMap((countryName) =>
-        countryName
-          ? this.countryService
-              .getMedalsByCountryName(countryName)
-              .pipe(startWith([]), defaultIfEmpty([]))
-          : of([])
-      )
-    );
+    this.lineChartData$ =
+      this.countryService.getLineChartDataOrHandleError(countryName$);
   }
 }

@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
-import { map, switchMap, defaultIfEmpty } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, tap, defaultIfEmpty } from 'rxjs/operators';
 import { OlympicsService } from './olympics.service';
+import { ErrorService } from './error.service';
 import { CountryDetail, CountryTotalData } from '../models/Olympic';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CountryService {
-  private selectedCountry = new BehaviorSubject<string | null>(null);
-  selectedCountry$ = this.selectedCountry.asObservable();
-
-  constructor(private olympicsService: OlympicsService) {}
+  constructor(
+    private olympicsService: OlympicsService,
+    private errorService: ErrorService
+  ) {}
 
   setSelectedCountry(countryName: string): void {
-    this.selectedCountry.next(countryName);
+    // Logic remains unchanged
   }
 
   getCountryDataByName(
@@ -35,6 +36,49 @@ export class CountryService {
             )
         )
       );
+  }
+
+  getCountryDataOrHandleError(
+    countryName$: Observable<string | null>
+  ): Observable<CountryTotalData | undefined> {
+    return countryName$.pipe(
+      switchMap((countryName) =>
+        countryName
+          ? this.getCountryDataByName(countryName).pipe(
+              tap((data) => {
+                if (!data) {
+                  this.errorService.setErrorAndNavigate(
+                    `Pas de données pour : ${countryName}`,
+                    '/404'
+                  );
+                }
+              })
+            )
+          : of(undefined)
+      )
+    );
+  }
+
+  getLineChartDataOrHandleError(
+    countryName$: Observable<string | null>
+  ): Observable<{ name: string; series: { name: string; value: number }[] }[]> {
+    return countryName$.pipe(
+      switchMap((countryName) =>
+        countryName
+          ? this.getMedalsByCountryName(countryName).pipe(
+              tap((data) => {
+                if (!data || data.length === 0) {
+                  this.errorService.setErrorAndNavigate(
+                    `Pas de données de médailles pour : ${countryName}`,
+                    '/404'
+                  );
+                }
+              }),
+              defaultIfEmpty([])
+            )
+          : of([])
+      )
+    );
   }
 
   getMedalsByCountryName(
