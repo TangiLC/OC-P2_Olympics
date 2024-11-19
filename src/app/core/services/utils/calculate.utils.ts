@@ -38,7 +38,6 @@ export function calculateStats(olympics: CountryDetail[] | null): {
       totalParticipations,
       totalMedalCount,
       totalAthleteCount,
-      //participations: country.participations,
     };
   });
 

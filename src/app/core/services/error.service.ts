@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, delay, tap,first } from 'rxjs';
+import { BehaviorSubject, Observable, tap, first } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -24,13 +24,12 @@ export class ErrorService {
     return this.errorMessage$;
   }
 
-  clearAndNavigate(path: string): void {
+  clearErrorAndNavigate(path: string): void {
     this.clearErrorMessage();
     this.errorMessage$
       .pipe(
         first(),
         tap((e) => {
-          //console.log('clear error', e);
           this.router.navigate([path]).then(() => {
             this.hasNavigated = false;
           });
@@ -44,12 +43,10 @@ export class ErrorService {
     if (!this.hasNavigated) {
       this.hasNavigated = true;
       this.errorMessage.next(message);
-
       this.errorMessage$
         .pipe(
           first(),
           tap((e) => {
-            //console.log('display error', e);
             this.router.navigate([path]).then(() => {
               this.hasNavigated = false;
             });

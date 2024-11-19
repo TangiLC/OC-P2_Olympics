@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { OlympicsService } from 'src/app/core/services/olympics.service';
 import { CountryTotalData } from 'src/app/core/models/Olympic';
 

@@ -15,10 +15,21 @@ describe('calculateStats', () => {
 
   it('should calculate stats for a country with multiple participations', () => {
     const mockOlympics: CountryDetail[] = [
-      {country: 'Country A',
+      {
+        country: 'Country A',
         participations: [
-          {year: 1988, city: 'Seoul', medalsCount: [2, 1, 0], athleteCount: 100},
-          {year: 1992, city: 'Barce', medalsCount: [3, 2, 1], athleteCount: 120},
+          {
+            year: 1988,
+            city: 'Seoul',
+            medalsCount: [2, 1, 0],
+            athleteCount: 100,
+          },
+          {
+            year: 1992,
+            city: 'Barce',
+            medalsCount: [3, 2, 1],
+            athleteCount: 120,
+          },
         ],
       },
     ];
@@ -36,15 +47,32 @@ describe('calculateStats', () => {
 
   it('should calculate stats for multiple countries', () => {
     const mockOlympics: CountryDetail[] = [
-      {country: 'Country A',
+      {
+        country: 'Country A',
         participations: [
-          {year: 1992, city: 'Barce', medalsCount: [3, 2, 1], athleteCount: 120},
+          {
+            year: 1992,
+            city: 'Barce',
+            medalsCount: [3, 2, 1],
+            athleteCount: 120,
+          },
         ],
       },
-      {country: 'Country B',
+      {
+        country: 'Country B',
         participations: [
-          {year: 1988, city: 'Seoul', medalsCount: [9, 8, 7], athleteCount: 50},
-          {year: 1992, city: 'Barce', medalsCount: [1, 2, 3], athleteCount: 100},
+          {
+            year: 1988,
+            city: 'Seoul',
+            medalsCount: [9, 8, 7],
+            athleteCount: 50,
+          },
+          {
+            year: 1992,
+            city: 'Barce',
+            medalsCount: [1, 2, 3],
+            athleteCount: 100,
+          },
         ],
       },
     ];
@@ -55,13 +83,13 @@ describe('calculateStats', () => {
       {
         name: 'Country A',
         totalParticipations: 1,
-        totalMedalCount: [3,2,1],
+        totalMedalCount: [3, 2, 1],
         totalAthleteCount: 120,
       },
       {
         name: 'Country B',
         totalParticipations: 2,
-        totalMedalCount: [10,10,10],
+        totalMedalCount: [10, 10, 10],
         totalAthleteCount: 150,
       },
     ]);
@@ -71,11 +99,7 @@ describe('calculateStats', () => {
 
   it('should handle countries with no participations', () => {
     const mockOlympics: CountryDetail[] = [
-      {
-        id: 1,
-        country: 'Country A',
-        participations: [], // No participations
-      },
+      { country: 'Country A', participations: [] },
     ];
 
     const result = calculateStats(mockOlympics);
@@ -86,7 +110,6 @@ describe('calculateStats', () => {
         totalParticipations: 0,
         totalMedalCount: [0, 0, 0],
         totalAthleteCount: 0,
-        //participations: [],
       },
     ]);
 

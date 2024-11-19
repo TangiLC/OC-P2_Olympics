@@ -3,7 +3,7 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { map, switchMap, tap, defaultIfEmpty } from 'rxjs/operators';
 import { OlympicsService } from './olympics.service';
 import { ErrorService } from './error.service';
-import { CountryDetail, CountryTotalData } from '../models/Olympic';
+import { CountryTotalData } from '../models/Olympic';
 
 @Injectable({
   providedIn: 'root',
@@ -63,7 +63,7 @@ export class CountryService {
 
   getLineChartDataOrHandleError(
     countryName$: Observable<string | null>
-  ): Observable<{ name: string; series: { name: string; value: number }[] }[]> {
+  ): Observable<{name:string;series:{name:string;value:number}[]}[]> {
     return countryName$.pipe(
       switchMap((countryName) =>
         countryName
