@@ -33,7 +33,7 @@ describe('ErrorService', () => {
 
   it('should clear error message', () => {
     service.setErrorMessage('Test Error');
-    service.clearErrorMessage();
+    service.setErrorMessage(null);
     service.getErrorMessage().subscribe((message) => {
       expect(message).toBeNull();
     });
@@ -41,7 +41,7 @@ describe('ErrorService', () => {
 
   it('should navigate to a given path and clear error message', () => {
     service.setErrorMessage('Test Error');
-    service.clearErrorAndNavigate('/test-path');
+    service.setErrorAndNavigate(null, '/test-path');
 
     service.getErrorMessage().subscribe((message) => {
       expect(message).toBeNull();

@@ -15,7 +15,7 @@ export class NotFoundComponent implements OnInit {
   }
 
   clearError(): void {
-    this.errorService.clearErrorAndNavigate('/');
+    this.errorService.setErrorAndNavigate(null, '/');
   }
 
   ngOnInit(): void {}
