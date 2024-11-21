@@ -26,10 +26,12 @@ export class MedalsPieChartComponent {
 
   constructor(private router: Router, private countryService: CountryService) {}
 
+  //Personnalize tooltip
   setTooltipText(data: { data: { label: string; value: number } }): string {
     return `${data.data.label}<br>🏅${data.data.value}`;
   }
 
+  //user click on graph sector
   onSelect(data: { name: string }): void {
     const countryName = data.name;
     if (countryName) {
@@ -38,6 +40,7 @@ export class MedalsPieChartComponent {
     }
   }
 
+  //mouse over graph sector
   onActivate(data: { entries: { name: string }[] }): void {
     const countryName =
       data.entries && data.entries[0] ? data.entries[0].name : null;
@@ -46,6 +49,7 @@ export class MedalsPieChartComponent {
     }
   }
 
+  //mouse out graph sector
   onDeactivate(data: { entries: { name: string }[] }): void {
     this.countryService.setSelectedCountry('');
   }
@@ -55,6 +59,7 @@ export class MedalsPieChartComponent {
     this.updateViewDimensions();
   }
 
+  //responsive resize (portrait to landscape screen ?)
   private updateViewDimensions(): void {
     const width =
       window.innerWidth > 768

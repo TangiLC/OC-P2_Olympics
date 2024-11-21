@@ -12,18 +12,21 @@ export class ErrorService {
 
   constructor(private router: Router) {}
 
+  //store error message
   setErrorMessage(message: string | null): void {
     this.errorMessage.next(message);
   }
 
+  //retrieve error message
   getErrorMessage(): Observable<string | null> {
     return this.errorMessage$;
   }
 
-  setErrorAndNavigate(message: string | null, path: string): void {
+  //navigate once after setting error message
+  setErrorAndNavigate(msg: string | null, path: string): void {
     if (!this.hasNavigated) {
       this.hasNavigated = true;
-      this.errorMessage.next(message);
+      this.errorMessage.next(msg);
       this.errorMessage$
         .pipe(
           first(),

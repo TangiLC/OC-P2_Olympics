@@ -16,10 +16,12 @@ export class CountryService {
     private errorService: ErrorService
   ) {}
 
+  //store country name for further use
   setSelectedCountry(countryName: string): void {
     this.selectedCountry.next(countryName);
   }
 
+  //return normalized country data
   getCountryDataByName(
     countryName: string
   ): Observable<CountryTotalData | undefined> {
@@ -40,6 +42,7 @@ export class CountryService {
       );
   }
 
+  //handle error or return normalized country data
   getCountryDataOrHandleError(
     countryName$: Observable<string | null>
   ): Observable<CountryTotalData | undefined> {
@@ -61,9 +64,10 @@ export class CountryService {
     );
   }
 
+  //handle error or return normalized data suitable for line-chart
   getLineChartDataOrHandleError(
     countryName$: Observable<string | null>
-  ): Observable<{name:string;series:{name:string;value:number}[]}[]> {
+  ): Observable<{ name: string; series: { name: string; value: number }[] }[]> {
     return countryName$.pipe(
       switchMap((countryName) =>
         countryName
@@ -83,6 +87,7 @@ export class CountryService {
     );
   }
 
+  //return medals data of selected country
   getMedalsByCountryName(
     countryName: string
   ): Observable<{ name: string; series: { name: string; value: number }[] }[]> {

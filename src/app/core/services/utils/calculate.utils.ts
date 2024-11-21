@@ -1,6 +1,7 @@
 import { CountryDetail, CountryTotalData } from '../../models/Olympic';
 import { Game } from '../../models/Participation';
 
+// Return total participations, medals and athletes of a selected country
 export function calculateStats(olympics: CountryDetail[] | null): {
   countryData: CountryTotalData[];
   maxTotalParticipations: number;

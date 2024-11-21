@@ -1,4 +1,9 @@
-import { Component, Input, HostListener,ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  HostListener,
+  ViewEncapsulation,
+} from '@angular/core';
 import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
 
 @Component({
@@ -36,6 +41,7 @@ export class MedalsLineChartComponent {
     this.updateViewDimensions();
   }
 
+   //responsive resize (portrait to landscape screen ?)
   private updateViewDimensions(): void {
     const width =
       window.innerWidth > 700

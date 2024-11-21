@@ -27,6 +27,8 @@ export class OlympicsService {
   private destroy$ = new Subject<void>();
   constructor(private http: HttpClient, private errorService: ErrorService) {}
 
+  //get and normalize data from Mock, refresh every *refreshDataDelay (5min)
+  //TODO validate if change to API call
   loadInitialData(): Observable<CountryDetail[]> {
     return timer(0, this.refreshDataDelay).pipe(
       takeUntil(this.destroy$),
@@ -52,11 +54,11 @@ export class OlympicsService {
       )
     );
   }
-
+  //get raw data
   getOlympics(): Observable<CountryDetail[] | null> {
     return this.olympics$.asObservable();
   }
-
+  //get normalized data
   getOlympicStats(): Observable<{
     countryData: CountryTotalData[];
     maxTotalParticipations: number;
@@ -64,6 +66,7 @@ export class OlympicsService {
     return this.olympicStats$.asObservable();
   }
 
+  //get normalized data suitable for pie-chart
   getPieChartData(): Observable<{ name: string; value: number }[]> {
     return this.getOlympicStats().pipe(
       map((stats) =>
