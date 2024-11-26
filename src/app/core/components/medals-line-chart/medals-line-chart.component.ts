@@ -25,7 +25,7 @@ export class MedalsLineChartComponent {
   animations: boolean = true;
   xAxis: boolean = true;
   yAxis: boolean = true;
-  showXAxisLabel: boolean = true;
+  showXAxisLabel: boolean = window.innerWidth > 800;
   showYAxisLabel: boolean = window.innerWidth > 700;
   xAxisLabel: string = 'Year';
   yAxisLabel: string = 'Medals';

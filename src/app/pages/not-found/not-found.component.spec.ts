@@ -13,7 +13,7 @@ describe('NotFoundComponent', () => {
       getErrorMessage: jasmine
         .createSpy('getErrorMessage')
         .and.returnValue(of('Test Error Message')),
-      clearAndNavigate: jasmine.createSpy('clearAndNavigate'),
+      setErrorAndNavigate: jasmine.createSpy('setErrorAndNavigate'),
     };
 
     await TestBed.configureTestingModule({
@@ -44,6 +44,6 @@ describe('NotFoundComponent', () => {
     const button = fixture.nativeElement.querySelector('button');
     button.click();
     expect(component.clearError).toHaveBeenCalled();
-    expect(mockErrorService.clearAndNavigate).toHaveBeenCalledWith('/');
+    expect(mockErrorService.setErrorAndNavigate).toHaveBeenCalledWith(null,'/');
   });
 });
